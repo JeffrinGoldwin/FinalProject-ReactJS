@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/user")
+const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 3001;
 
@@ -32,6 +33,31 @@ app.post('/login', async (req, res) => {
     console.log(u)
     console.log(user)
   });
+
+app.use(bodyParser.json());
+app.post('/createUser', async (req, res) => {
+try {
+    const { first_Name, last_Name, email, password, age, role } = req.body;
+    const newUser = new UserModel({
+    FirstName : first_Name,
+    LastName : last_Name,
+    Email : email,
+    Password : password,
+    Age : age,
+    Role : role,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    // Respond with success message
+    res.status(201).json({ message: 'User created successfully', user: newUser });
+} catch (error) {
+    // Handle errors
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
