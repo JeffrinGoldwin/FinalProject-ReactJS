@@ -11,6 +11,7 @@ const userSchema = new Schema({
   FirstName: String,
   LastName: String,
   Email : String,
+  Password: String,
   Age : Number,
   Role : String
 });

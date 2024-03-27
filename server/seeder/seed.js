@@ -9,7 +9,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/MainProject', {
 }); 
 
 // Define data to be seeded
-const user = { ID: 1, FirstName: "Jhon", LastName: "Doe", Email: 'user1@example.com', Age:21, Role: "Admin"} // Only one user in this example
+const user = { ID: 1, FirstName: "Admin", LastName: "123", Email: 'Admin@gmail.com', Password: "Admin", Age:21, Role: "Admin"} // Only one user in this example
 
 // Seed data into the database
 async function seed() {
