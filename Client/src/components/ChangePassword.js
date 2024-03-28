@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export const ChangePassword = () => {
+    const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState('12345')
     const [currentUser, setCurrentUser] = useState([]);
 
@@ -30,9 +33,8 @@ export const ChangePassword = () => {
     // Here you can add your logic to send the new password to the server and update the user's password
     axios.post('http://localhost:3001/changePassword', { newPassword: newPassword  })
       .then(response => {
-        
         console.log('Password changed successfully');
-        // Optionally, you can perform any additional actions after the password change, such as redirecting the user to another page
+        navigate("/LandingPage");
       }) 
       .catch(error => {
         console.error('Error changing password:', error);
