@@ -4,6 +4,7 @@ const cors = require("cors");
 const UserModel = require("./models/user");
 const bodyParser = require("body-parser");
 const crypto = require("crypto");
+const { generateRandomString } = require('./utils/GenerateRandomPassword');
 
 const PORT = process.env.PORT || 3001;
 
@@ -11,26 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const generateRandomString = (length) => {
-  // Define the character set from which to generate the random string
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-  // Initialize an empty string to store the random string
-  let randomString = "";
-
-  // Loop through the length specified and randomly select characters
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    randomString += characters[randomIndex];
-  }
-
-  return randomString;
-};
-
-mongoose
-  .connect(
-    "mongodb+srv://Jeffrin:Cj4Uf25ihBEZcqlu@cluster0.1q7i9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+mongoose.connect("mongodb+srv://Jeffrin:Cj4Uf25ihBEZcqlu@cluster0.1q7i9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("MongoDB Connected"))
