@@ -13,7 +13,7 @@ export const LandingPage = () => {
     .catch(err => console.log(err))
     console.log(users)
   
-  },[])
+  },[UserCreationForm])
 
   return (
     <div>
