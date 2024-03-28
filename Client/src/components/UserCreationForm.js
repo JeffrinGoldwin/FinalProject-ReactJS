@@ -14,8 +14,7 @@ export const UserCreationForm = () => {
   const [passwordChanged, setPasswordChanged] = useState('False');
 
   const handleCreateUser = async (e) => {
-    e.preventDefault();
-    
+    e.preventDefault();    
     const newUser = {
       firstName,
       lastName,
@@ -35,7 +34,7 @@ export const UserCreationForm = () => {
         console.log(response.data)
         
       } catch (error) {
-        console.error('Error creating uuser:', error);
+        console.error('Error creating user:', error);
       }
   }
 
