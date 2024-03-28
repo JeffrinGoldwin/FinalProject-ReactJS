@@ -5,12 +5,13 @@ import axios from 'axios'
 
 
 export const UserCreationForm = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('Jeff');
+  const [lastName, setLastName] = useState('Gold');
+  const [email, setEmail] = useState('jeffrin.2005031@srec.ac.in');
   const [password, setPassword] = useState('123');
-  const [age, setAge] = useState('');
-  const [role, setRole] = useState('');
+  const [age, setAge] = useState('21');
+  const [role, setRole] = useState('User');
+  const [passwordChanged, setPasswordChanged] = useState('False');
 
   const handleCreateUser = async (e) => {
     e.preventDefault();
@@ -21,7 +22,8 @@ export const UserCreationForm = () => {
       email,
       password,
       age,
-      role
+      role,
+      passwordChanged
     };
 
     try {
