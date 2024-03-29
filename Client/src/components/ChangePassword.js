@@ -34,7 +34,7 @@ export const ChangePassword = () => {
     axios.post('http://localhost:3001/changePassword', { newPassword: newPassword  })
       .then(response => {
         console.log('Password changed successfully');
-        navigate("/LandingPage");
+        navigate("/Login");
       }) 
       .catch(error => {
         console.error('Error changing password:', error);

@@ -106,14 +106,13 @@ app.get("/currentUser", (req, res) => {
 
 app.post('/changePassword', async (req, res) => {
     try {
-      // Extract the new password from the request body
       const { newPassword } = req.body;
       console.log(req.body);
       console.log(currentUser);
       const updatedUser = await UserModel.findOneAndUpdate(
-        { Email: currentUser.Email }, // Filter criteria
-        { Password: newPassword }, // Update data
-        { PasswordChanged : "True"}
+        { Email: currentUser.Email },
+        { Password: newPassword, PasswordChanged : "True" }
+        
       );
       console.log("New Password",newPassword)
       if (!updatedUser) {
