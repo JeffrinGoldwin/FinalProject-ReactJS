@@ -3,15 +3,19 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/user");
 const bodyParser = require("body-parser");
-const router = express.Router();
-const crypto = require("crypto");
+const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
+const jwt = require('jsonwebtoken');
 const { generateRandomString } = require("./utils/GenerateRandomPassword");
 const { sendEmail } = require("./utils/SendMail");
 const PORT = process.env.PORT || 3001;
+
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+
 let currentUser = null;
 
 const transporter = nodemailer.createTransport({
@@ -22,10 +26,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const createToken = (id) => {
+  return jwt.sign({ id } , 'jeffrin' , {
+    expiresIn: 3600000
+  })
+} 
+
 mongoose
   .connect(
-    "mongodb+srv://Jeffrin:Cj4Uf25ihBEZcqlu@cluster0.1q7i9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    "mongodb+srv://Jeffrin:Cj4Uf25ihBEZcqlu@cluster0.1q7i9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
@@ -83,6 +92,9 @@ app.post("/createUser", async (req, res) => {
     await newUser.save();
     const emailText = `Hello ${firstName},\n\nYour account has been created successfully.\n\nYour password is: ${randomPassword} \n\nWebsite Link : http://localhost:3000/login`;
     await sendEmail(email, "Account Created", emailText, transporter);
+
+    // const token = createToken(newUser._id)
+    res.cookie('jwt', token, {httpOnly: true, maxAge: 3600000})
 
     // Respond with success message
     res
