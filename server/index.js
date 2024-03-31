@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/user");
-const CoursesModel = require("./models/course");
+const CourseModel = require("./models/course");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
@@ -119,7 +119,7 @@ app.get("/currentUser", (req, res) => {
 
 app.get("/courses", async (req, res) => {
   try{
-    const courses = await CoursesModel.find();
+    const courses = await CourseModel.find();
     res.json(courses);
   } catch(error) {
     console.error('Error fetching courses:', error);
@@ -150,6 +150,27 @@ app.post('/changePassword', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  app.post('/addCourse', async (req, res) => {
+    try {
+        // Extract data from the request body
+        const { videoUrl, courseTitle, courseDescription } = req.body;
+
+        // Create a new course document
+        const newCourse = new CourseModel({
+            VideoURL: videoUrl,
+            VideoTitle: courseTitle,
+            VideoDescription: courseDescription
+        });
+
+        // Save the new course to the database
+        const savedCourse = await newCourse.save();
+        res.status(201).json(savedCourse);
+    } catch (error) {
+        console.error('Error adding course:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
 app.listen(PORT, () => {

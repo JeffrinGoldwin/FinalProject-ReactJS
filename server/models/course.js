@@ -7,6 +7,6 @@ const courseSchema = new Schema({
   VideoDescription: String
 });
 
-const UserModel = mongoose.model('courses', courseSchema);
+const CourseModel = mongoose.model('courses', courseSchema);
 
-module.exports = UserModel;
+module.exports = CourseModel;
