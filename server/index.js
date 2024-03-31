@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/user");
+const CoursesModel = require("./models/course");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
@@ -114,6 +115,16 @@ app.get("/currentUser", (req, res) => {
   } else {
     res.status(404).json({ error: "No user logged in" });
   }
+});
+
+app.get("/courses", async (req, res) => {
+  try{
+    const courses = await CoursesModel.find();
+    res.json(courses);
+  } catch(error) {
+    console.error('Error fetching courses:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  } 
 });
 
 app.post('/changePassword', async (req, res) => {
