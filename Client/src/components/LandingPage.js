@@ -10,14 +10,14 @@ export const LandingPage = () => {
   const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState([]);
-  const [courses, setcourses] = useState(["A","B","C","D"])
+  const [courses, setcourses] = useState([{title:"A"}, {title:"B"}]);
+  const [videoData, setVideoData] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/currentUser"); // Assuming this endpoint returns the current user data
-        // console.log(response.data);
+        const response = await axios.get("http://localhost:3001/currentUser");
         setCurrentUser(response.data);
       } catch (error) {
         console.error("Error fetching current user:", error);
@@ -26,7 +26,7 @@ export const LandingPage = () => {
     };
 
     fetchCurrentUser();
-  }, [location.pathname]); //  route changes
+  }, [location.pathname]);
 
   useEffect(() => {
     console.log("User", currentUser); // Log the currentUser whenever it changes
@@ -35,12 +35,26 @@ export const LandingPage = () => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/courses");
+        setVideoData(response.data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   return (
     <div>
       <NavBar></NavBar>
       <h1>Landing Page</h1>
       <CourseCards 
         courses={courses}
+        videoData={videoData}
       />
       <div>
         {/* <p>Welcome, {currentUser.FirstName}!</p>
