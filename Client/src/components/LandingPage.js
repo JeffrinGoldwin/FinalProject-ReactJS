@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import {useLocation } from "react-router-dom";
 import { UserCreationForm } from "./UserCreationForm";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar"
 import CourseCards from "./Cards"
+import { Courses } from "./Courses";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -50,15 +51,9 @@ export const LandingPage = () => {
 
   return (
     <div>
-      <NavBar></NavBar>
-      <h1>Landing Page</h1>
-      <CourseCards 
-        courses={courses}
-        videoData={videoData}
-      />
+      <NavBar />
       <div>
-        {/* <p>Welcome, {currentUser.FirstName}!</p>
-        <p>Email: {currentUser.Email}</p> */}
+        <p>Welcome {currentUser.FirstName} !</p>
         {currentUser.Role === "Admin" && <UserCreationForm />}
       </div>
     </div>
