@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/user");
 const CourseModel = require("./models/course");
-const EventModel = require("./models/events")
+const EventModel = require("./models/events");
+const AcceptRejectModel = require("./models/AcceptRejectModel");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
@@ -204,19 +205,19 @@ app.post('/changePassword', async (req, res) => {
 app.post('/addEvent', async (req, res) => {
   try {
       // Extract data from request body
-      const { eventName, time, eventStartDate, eventEndDate, venue, description, accepted, rejected, maybe } = req.body;
-
+      const { EventName, StartTime, EndTime, EventStartDate, EventEndDate, Venue, Description, Accepted, Rejected, Maybe } = req.body;
       // Create a new event document
-      const newEvent = new EventModel({
-          EventName: eventName,
-          Time: time,
-          EventStartDate: eventStartDate,
-          EventEndDate: eventEndDate,
-          Venue: venue,
-          Description: description,
-          Accepted: accepted,
-          Rejected: rejected,
-          Maybe: maybe
+      const newEvent = await new EventModel({
+          EventName: EventName,
+          StartTime: StartTime,
+          EndTime: EndTime,
+          EventStartDate: EventStartDate,
+          EventEndDate: EventEndDate,
+          Venue: Venue,
+          Description: Description,
+          Accepted: Accepted,
+          Rejected: Rejected,
+          Maybe: Maybe
       });
 
       // Save the new event to the database
@@ -247,6 +248,63 @@ app.post('/addEvent', async (req, res) => {
   }
 });
 
+app.put('/updateEvent/:id', async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    const updatedEventData = req.body;
+
+    // Find the event by ID and update its data
+    console.log(updatedEventData)
+    const updatedEvent = await EventModel.findByIdAndUpdate(eventId, updatedEventData, { new: true });
+
+    if (!updatedEvent) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    // Respond with the updated event data
+    res.status(200).json(updatedEvent);
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/addAcceptReject', async (req, res) => {
+  try {
+      // Extract data from the request body
+      const { Email, EventName, AcceptOrReject } = req.body;
+
+      // Create a new AcceptReject document
+      const newAcceptReject = new AcceptRejectModel({
+          Email,
+          EventName,
+          AcceptOrReject
+      });
+
+      // Save the new accept/reject data to the database
+      const savedAcceptReject = await newAcceptReject.save();
+
+      // Respond with success message and the saved accept/reject data
+      res.status(201).json(savedAcceptReject);
+  } catch (error) {
+      // If an error occurs, respond with an error status and message
+      console.error('Error adding accept/reject data:', error);
+      res.status(500).json({ error: 'Failed to add accept/reject data' });
+  }
+});
+
+app.get('/checkAcceptReject', async (req, res) => {
+  try {
+    const { email, eventName } = req.query;
+    // Check if the combination exists in the AcceptRejectModel
+    const acceptReject = await AcceptRejectModel.findOne({ Email: email, EventName: eventName });
+    // Return true if the combination exists, false otherwise
+    res.json(acceptReject);
+  } catch (error) {
+    console.error('Error checking accept/reject:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
