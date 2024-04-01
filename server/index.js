@@ -188,7 +188,7 @@ app.post('/changePassword', async (req, res) => {
 
           try {
               // Send email to the current user
-              await sendEmail(email, "Test Subject", emailText, transporter);
+              await sendEmail(email, "New Course", emailText, transporter);
               console.log(`Email sent successfully to ${email}`);
           } catch (error) {
               console.error(`Error sending email to ${email}:`, error);
@@ -221,6 +221,22 @@ app.post('/addEvent', async (req, res) => {
 
       // Save the new event to the database
       const savedEvent = await newEvent.save();
+
+      //Email
+      const users = await UserModel.find({}, 'Email');
+        for (const user of users) {
+          const email = user.Email  ;
+          const Name = user.FirstName  ;
+          const emailText = `Hello ${Name},\n\nNew Event has been Added\n\nWebsite Link : http://localhost:3000/Events`; 
+
+          try {
+              // Send email to the current user
+              await sendEmail(email, "New Event", emailText, transporter);
+              console.log(`Email sent successfully to ${email}`);
+          } catch (error) {
+              console.error(`Error sending email to ${email}:`, error);
+          }
+      }
 
       // Send success response
       res.status(201).json(savedEvent);
