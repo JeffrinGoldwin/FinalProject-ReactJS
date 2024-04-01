@@ -94,7 +94,7 @@ app.post("/createUser", async (req, res) => {
     const emailText = `Hello ${firstName},\n\nYour account has been created successfully.\n\nYour password is: ${randomPassword} \n\nWebsite Link : http://localhost:3000/login`;
     await sendEmail(email, "Account Created", emailText, transporter);
 
-    // const token = createToken(newUser._id)
+    const token = createToken(newUser._id)
     res.cookie('jwt', token, {httpOnly: true, maxAge: 3600000})
 
     // Respond with success message
@@ -165,6 +165,22 @@ app.post('/changePassword', async (req, res) => {
 
         // Save the new course to the database
         const savedCourse = await newCourse.save();
+
+        //Email
+        const users = await UserModel.find({}, 'Email');
+        for (const user of users) {
+          const email = user.Email  ;
+          const Name = user.FirstName  ;
+          const emailText = `Hello ${Name},\n\nNew Couurse has been Added\n\nWebsite Link : http://localhost:3000/Course`; 
+
+          try {
+              // Send email to the current user
+              await sendEmail(email, "Test Subject", emailText, transporter);
+              console.log(`Email sent successfully to ${email}`);
+          } catch (error) {
+              console.error(`Error sending email to ${email}:`, error);
+          }
+      }
         res.status(201).json(savedCourse);
     } catch (error) {
         console.error('Error adding course:', error);
