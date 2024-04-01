@@ -197,30 +197,47 @@ export const EventDetailsModel = ({
           <p>
             <strong>Description:</strong> {event.Description}
           </p>
+          {currentUser.Role === "Admin" && (
+          <>
+          <p>
+            <strong>Accepted:</strong> {event.Accepted}
+          </p>
+          <p>
+            <strong>Rejected:</strong> {event.Rejected}
+          </p>
+          <p>
+            <strong>Maybe:</strong> {event.Maybe}
+          </p>
+          </>
+          )}
         </Modal.Body>
         <Modal.Footer>
-        {currentUser.Role === "User" && (
-            <div>
-          {(currentUser.Email === email && eventTitle === event.EventName) ? (
+        {currentUser.Role === "User" ? (
+        <div>
+            {(currentUser.Email === email && eventTitle === event.EventName) ? (
             <Button variant="secondary" disabled>Answered</Button>
-          ) : (
+            ) : (
             <Dropdown as={ButtonGroup}>
-              <Button variant="primary" onClick={handleAccept}>
+                <Button variant="primary" onClick={handleAccept}>
                 Accept
-              </Button>
-              <Dropdown.Toggle
+                </Button>
+                <Dropdown.Toggle
                 split
                 variant="primary"
                 id="dropdown-split-basic"
-              />
-              <Dropdown.Menu>
+                />
+                <Dropdown.Menu>
                 <Dropdown.Item onClick={handleReject}>Reject</Dropdown.Item>
                 <Dropdown.Item onClick={handleMaybe}>Maybe</Dropdown.Item>
-              </Dropdown.Menu>
+                </Dropdown.Menu>
             </Dropdown>
-          )}
-          </div>
-          )}
+            )}
+        </div>
+        ) : (
+        <div>
+            <p>You are not authorized to perform this action.</p>
+        </div>
+        )}
         </Modal.Footer>
       </Modal>
     </div>
