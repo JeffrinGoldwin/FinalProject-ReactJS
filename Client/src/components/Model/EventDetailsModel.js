@@ -1,21 +1,45 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
-export const EventDetailsModel = ({ eventDetailsModelshow, handleClose, event }) => {
+export const EventDetailsModel = ({
+  eventDetailsModelshow,
+  handleClose,
+  event,
+}) => {
   return (
     <div>
-      <Modal show={eventDetailsModelshow} onHide={handleClose} backdrop="static" keyboard={false}>
+      <Modal
+        show={eventDetailsModelshow}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <p><strong>Event Name:</strong> {event.EventName}</p>
-          <p><strong>Time:</strong> {event.Time}</p>
-          <p><strong>Start Date:</strong> {event.EventStartDate}</p>
-          <p><strong>End Date:</strong> {event.EventEndDate}</p>
-          <p><strong>Venue:</strong> {event.Venue}</p>
-          <p><strong>Description:</strong> {event.Description}</p>
+          <p>
+            <strong>Event Name:</strong> {event.EventName}
+          </p>
+          <p>
+            <strong>Start Time:</strong> {event.StartTime}
+          </p>
+          <p>
+            <strong>End Time:</strong> {event.EndTime}
+          </p>
+          <p>
+            <strong>Start Date:</strong> {event.EventStartDate}
+          </p>
+          <p>
+            <strong>End Date:</strong> {event.EventEndDate}
+          </p>
+          <p>
+            <strong>Venue:</strong> {event.Venue}
+          </p>
+          <p>
+            <strong>Description:</strong> {event.Description}
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleClose} variant="primary">

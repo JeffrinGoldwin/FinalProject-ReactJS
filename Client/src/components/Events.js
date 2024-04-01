@@ -5,6 +5,7 @@ import {useLocation } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import { AddEventModel } from './Model/AddEventModel';
 import { EventCards } from './Cards/EventCards';
+import NavBar from './NavBar';
 
 export const Events = () => {
 
@@ -45,6 +46,7 @@ export const Events = () => {
 
   return (
     <div>
+        <NavBar />  
         <EventCards 
         events = {events}/>
         {currentUser.Role === 'Admin' && (
