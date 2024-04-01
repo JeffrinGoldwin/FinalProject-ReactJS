@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/user");
 const CourseModel = require("./models/course");
+const EventModel = require("./models/events")
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
@@ -127,6 +128,18 @@ app.get("/courses", async (req, res) => {
   } 
 });
 
+app.get('/events', async (req, res) => {
+  try {
+      // Fetch events from the database
+      const events = await EventModel.find();
+      res.status(200).json(events);
+  } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 app.post('/changePassword', async (req, res) => {
     try {
       const { newPassword } = req.body;
@@ -186,6 +199,36 @@ app.post('/changePassword', async (req, res) => {
         console.error('Error adding course:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+});
+
+app.post('/addEvent', async (req, res) => {
+  try {
+      // Extract data from request body
+      const { eventName, time, eventStartDate, eventEndDate, venue, description, accepted, rejected, maybe } = req.body;
+
+      // Create a new event document
+      const newEvent = new EventModel({
+          EventName: eventName,
+          Time: time,
+          EventStartDate: eventStartDate,
+          EventEndDate: eventEndDate,
+          Venue: venue,
+          Description: description,
+          Accepted: accepted,
+          Rejected: rejected,
+          Maybe: maybe
+      });
+
+      // Save the new event to the database
+      const savedEvent = await newEvent.save();
+
+      // Send success response
+      res.status(201).json(savedEvent);
+  } catch (error) {
+      // Handle error
+      console.error('Error adding event:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 

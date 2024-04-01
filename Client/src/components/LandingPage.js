@@ -4,7 +4,7 @@ import {useLocation } from "react-router-dom";
 import { UserCreationForm } from "./UserCreationForm";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar"
-import CourseCards from "./Cards"
+import CourseCards from "./Cards/CourseCards"
 import { Courses } from "./Courses";
 
 export const LandingPage = () => {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import CourseCards from './Cards';
+import CourseCards from './Cards/CourseCards';
 import NavBar from './NavBar';
 import Button from 'react-bootstrap/Button';
-import { AddCourseModel } from './AddCourseModel';
+import { AddCourseModel } from './Model/AddCourseModel';
 import {useLocation } from "react-router-dom";
 
 export const Courses = () => {

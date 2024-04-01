@@ -14,7 +14,7 @@ function NavBar() {
           <Nav className="me-auto">
             {/* <Nav.Link >Courses</Nav.Link> */}
             <Nav.Link as={Link} to="/Courses">Courses</Nav.Link>
-            <Nav.Link href="#pricing">Events</Nav.Link>
+            <Nav.Link as={Link} to="/Events">Events</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">

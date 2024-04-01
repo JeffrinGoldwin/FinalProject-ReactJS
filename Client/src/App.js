@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ChangePassword } from "./components/ChangePassword";
 import { Courses } from "./components/Courses";
+import { Events } from "./components/Events";
 
 function App() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/LandingPage" element={<LandingPage />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/Courses" element={<Courses />} />
+        <Route path="/Events" element={<Events />} />
       </Routes>
     </div>
   );
