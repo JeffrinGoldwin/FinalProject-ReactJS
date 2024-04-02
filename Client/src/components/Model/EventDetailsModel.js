@@ -219,6 +219,9 @@ export const EventDetailsModel = ({
             <strong>Venue:</strong> {selectedEvent.Venue}
           </p>
           <p>
+            <strong>Participents: </strong> {selectedEvent.Accepted}/{selectedEvent.Capacity}
+          </p>
+          <p>
             <strong>Description:</strong> {selectedEvent.Description}
           </p>
           {currentUser.Role === "Admin" && (

@@ -12,6 +12,7 @@ export const AddEventModel = (props) => {
   const [eventStartDate, setEventStartDate] = useState(null);
   const [eventEndDate, setEventEndDate] = useState(null);
   const [venue, setVenue] = useState("");
+  const [capacity, setCapacity] = useState();
   const [description, setDescription] = useState("");
   const [accepted, setAccepted] = useState(0);
   const [rejected, setRejected] = useState(0);
@@ -29,6 +30,7 @@ export const AddEventModel = (props) => {
         EventStartDate: eventStartDate.toISOString(),
         EventEndDate: eventEndDate.toISOString(),
         Venue: venue,
+        Capacity : capacity,
         Description: description,
         Accepted: accepted,
         Rejected: rejected,
@@ -108,6 +110,14 @@ export const AddEventModel = (props) => {
             type="text"
             value={venue}
             onChange={(e) => setVenue(e.target.value)}
+          />
+          <br />
+          <br />
+          Capacity:{" "}
+          <input
+            type="text"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)}
           />
           <br />
           <br />

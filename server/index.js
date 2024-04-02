@@ -205,7 +205,7 @@ app.post('/changePassword', async (req, res) => {
 app.post('/addEvent', async (req, res) => {
   try {
       // Extract data from request body
-      const { EventName, StartTime, EndTime, EventStartDate, EventEndDate, Venue, Description, Accepted, Rejected, Maybe } = req.body;
+      const { EventName, StartTime, EndTime, EventStartDate, EventEndDate, Venue, Capacity, Description, Accepted, Rejected, Maybe } = req.body;
       // Create a new event document
       const newEvent = await new EventModel({
           EventName: EventName,
@@ -214,6 +214,7 @@ app.post('/addEvent', async (req, res) => {
           EventStartDate: EventStartDate,
           EventEndDate: EventEndDate,
           Venue: Venue,
+          Capacity: Capacity,
           Description: Description,
           Accepted: Accepted,
           Rejected: Rejected,
