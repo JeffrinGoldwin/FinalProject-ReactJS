@@ -8,7 +8,7 @@ const AcceptRejectModel = require("./models/AcceptRejectModel");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const { generateRandomString } = require("./utils/GenerateRandomPassword");
 const { sendEmail } = require("./utils/SendMail");
 const PORT = process.env.PORT || 3001;
@@ -30,10 +30,10 @@ const transporter = nodemailer.createTransport({
 });
 
 const createToken = (id) => {
-  return jwt.sign({ id } , 'jeffrin' , {
-    expiresIn: 3600000
-  })
-} 
+  return jwt.sign({ id }, "jeffrin", {
+    expiresIn: 3600000,
+  });
+};
 
 mongoose
   .connect(
@@ -96,8 +96,8 @@ app.post("/createUser", async (req, res) => {
     const emailText = `Hello ${firstName},\n\nYour account has been created successfully.\n\nYour password is: ${randomPassword} \n\nWebsite Link : http://localhost:3000/login`;
     await sendEmail(email, "Account Created", emailText, transporter);
 
-    const token = createToken(newUser._id)
-    res.cookie('jwt', token, {httpOnly: true, maxAge: 3600000})
+    const token = createToken(newUser._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 
     // Respond with success message
     res
@@ -120,194 +120,224 @@ app.get("/currentUser", (req, res) => {
 });
 
 app.get("/courses", async (req, res) => {
-  try{
+  try {
     const courses = await CourseModel.find();
     res.json(courses);
-  } catch(error) {
-    console.error('Error fetching courses:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  } 
-});
-
-app.get('/events', async (req, res) => {
-  try {
-      // Fetch events from the database
-      const events = await EventModel.find();
-      res.status(200).json(events);
   } catch (error) {
-      console.error('Error fetching events:', error);
-      res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching courses:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-
-app.post('/changePassword', async (req, res) => {
-    try {
-      const { newPassword } = req.body;
-      console.log(req.body);
-      console.log(currentUser);
-      const updatedUser = await UserModel.findOneAndUpdate(
-        { Email: currentUser.Email },
-        { Password: newPassword, PasswordChanged : "True" }
-        
-      );
-      console.log("New Password",newPassword)
-      if (!updatedUser) {
-        // If no user was found with the specified email
-        return res.status(404).json({ error: 'User not found' });
-      }
-      // Send a success response
-      res.status(200).json({ message: 'Password updated successfully' });
-    } catch (error) {
-      // Handle any errors
-      console.error('Error changing password:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
-
-  app.post('/addCourse', async (req, res) => {
-    try {
-        // Extract data from the request body
-        const { videoUrl, courseTitle, courseDescription } = req.body;
-
-        // Create a new course document
-        const newCourse = new CourseModel({
-            VideoURL: videoUrl,
-            VideoTitle: courseTitle,
-            VideoDescription: courseDescription
-        });
-
-        // Save the new course to the database
-        const savedCourse = await newCourse.save();
-
-        //Email
-        const users = await UserModel.find({}, 'Email');
-        for (const user of users) {
-          const email = user.Email  ;
-          const Name = user.FirstName  ;
-          const emailText = `Hello ${Name},\n\nNew Couurse has been Added\n\nWebsite Link : http://localhost:3000/Course`; 
-
-          try {
-              // Send email to the current user
-              await sendEmail(email, "New Course", emailText, transporter);
-              console.log(`Email sent successfully to ${email}`);
-          } catch (error) {
-              console.error(`Error sending email to ${email}:`, error);
-          }
-      }
-        res.status(201).json(savedCourse);
-    } catch (error) {
-        console.error('Error adding course:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-app.post('/addEvent', async (req, res) => {
+app.get("/events", async (req, res) => {
   try {
-      // Extract data from request body
-      const { EventName, StartTime, EndTime, EventStartDate, EventEndDate, Venue, Capacity, Description, Accepted, Rejected, Maybe } = req.body;
-      // Create a new event document
-      const newEvent = await new EventModel({
-          EventName: EventName,
-          StartTime: StartTime,
-          EndTime: EndTime,
-          EventStartDate: EventStartDate,
-          EventEndDate: EventEndDate,
-          Venue: Venue,
-          Capacity: Capacity,
-          Description: Description,
-          Accepted: Accepted,
-          Rejected: Rejected,
-          Maybe: Maybe
-      });
-
-      // Save the new event to the database
-      const savedEvent = await newEvent.save();
-
-      //Email
-      const users = await UserModel.find({}, 'Email');
-        for (const user of users) {
-          const email = user.Email  ;
-          const Name = user.FirstName  ;
-          const emailText = `Hello ${Name},\n\nNew Event has been Added\n\nWebsite Link : http://localhost:3000/Events`; 
-
-          try {
-              // Send email to the current user
-              await sendEmail(email, "New Event", emailText, transporter);
-              console.log(`Email sent successfully to ${email}`);
-          } catch (error) {
-              console.error(`Error sending email to ${email}:`, error);
-          }
-      }
-
-      // Send success response
-      res.status(201).json(savedEvent);
+    // Fetch events from the database
+    const events = await EventModel.find();
+    res.status(200).json(events);
   } catch (error) {
-      // Handle error
-      console.error('Error adding event:', error);
-      res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching events:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.put('/updateEvent/:id', async (req, res) => {
+app.post("/changePassword", async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    console.log(req.body);
+    console.log(currentUser);
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { Email: currentUser.Email },
+      { Password: newPassword, PasswordChanged: "True" }
+    );
+    console.log("New Password", newPassword);
+    if (!updatedUser) {
+      // If no user was found with the specified email
+      return res.status(404).json({ error: "User not found" });
+    }
+    // Send a success response
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    // Handle any errors
+    console.error("Error changing password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/addCourse", async (req, res) => {
+  try {
+    // Extract data from the request body
+    const { videoUrl, courseTitle, courseDescription } = req.body;
+
+    // Create a new course document
+    const newCourse = new CourseModel({
+      VideoURL: videoUrl,
+      VideoTitle: courseTitle,
+      VideoDescription: courseDescription,
+    });
+
+    // Save the new course to the database
+    const savedCourse = await newCourse.save();
+
+    //Email
+    const users = await UserModel.find({}, "Email");
+    for (const user of users) {
+      const email = user.Email;
+      const Name = user.FirstName;
+      const emailText = `Hello ${Name},\n\nNew Couurse has been Added\n\nWebsite Link : http://localhost:3000/Course`;
+
+      try {
+        // Send email to the current user
+        await sendEmail(email, "New Course", emailText, transporter);
+        console.log(`Email sent successfully to ${email}`);
+      } catch (error) {
+        console.error(`Error sending email to ${email}:`, error);
+      }
+    }
+    res.status(201).json(savedCourse);
+  } catch (error) {
+    console.error("Error adding course:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/addEvent", async (req, res) => {
+  try {
+    // Extract data from request body
+    const {
+      EventName,
+      StartTime,
+      EndTime,
+      EventStartDate,
+      EventEndDate,
+      Venue,
+      Capacity,
+      Description,
+      Accepted,
+      Rejected,
+      Maybe,
+    } = req.body;
+    // Create a new event document
+    const newEvent = await new EventModel({
+      EventName: EventName,
+      StartTime: StartTime,
+      EndTime: EndTime,
+      EventStartDate: EventStartDate,
+      EventEndDate: EventEndDate,
+      Venue: Venue,
+      Capacity: Capacity,
+      Description: Description,
+      Accepted: Accepted,
+      Rejected: Rejected,
+      Maybe: Maybe,
+    });
+
+    // Save the new event to the database
+    const savedEvent = await newEvent.save();
+
+    //Email
+    const users = await UserModel.find({}, "Email");
+    for (const user of users) {
+      const email = user.Email;
+      const emailText = `Hello ,\n\nNew Event has been Added\n\nWebsite Link : http://localhost:3000/Events`;
+
+      try {
+        // Send email to the current user
+        await sendEmail(email, "New Event", emailText, transporter);
+        console.log(`Email sent successfully to ${email}`);
+      } catch (error) {
+        console.error(`Error sending email to ${email}:`, error);
+      }
+    }
+
+    // Send success response
+    res.status(201).json(savedEvent);
+  } catch (error) {
+    // Handle error
+    console.error("Error adding event:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/updateEvent/:id", async (req, res) => {
   try {
     const eventId = req.params.id;
     const updatedEventData = req.body;
 
     // Find the event by ID and update its data
-    console.log(updatedEventData)
-    const updatedEvent = await EventModel.findByIdAndUpdate(eventId, updatedEventData, { new: true });
+    console.log(updatedEventData);
+    const updatedEvent = await EventModel.findByIdAndUpdate(
+      eventId,
+      updatedEventData,
+      { new: true }
+    );
 
     if (!updatedEvent) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ message: "Event not found" });
     }
+
+    const acceptedEmployees = await AcceptRejectModel.find({ EventName: updatedEvent.EventName, AcceptOrReject: "1" });
+
+    acceptedEmployees.forEach(async (employee) => {
+      try {
+        // Email content
+        const emailText = `Dear ${employee.Email},\n\n${updatedEvent.EventName} Has been updated. Check it in the portal\n\nThank you.`;
+        // Send the email
+        await sendEmail(employee.Email, "New Event", emailText, transporter);
+      } catch (error) {
+        console.error("Error sending email to", employee.Email, ":", error);
+      }
+    });
+
 
     // Respond with the updated event data
     res.status(200).json(updatedEvent);
   } catch (error) {
-    console.error('Error updating event:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error updating event:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-app.post('/addAcceptReject', async (req, res) => {
+app.post("/addAcceptReject", async (req, res) => {
   try {
-      // Extract data from the request body
-      const { Email, EventName, AcceptOrReject } = req.body;
+    // Extract data from the request body
+    const { Email, EventName, AcceptOrReject } = req.body;
 
-      // Create a new AcceptReject document
-      const newAcceptReject = new AcceptRejectModel({
-          Email,
-          EventName,
-          AcceptOrReject
-      });
+    // Create a new AcceptReject document
+    const newAcceptReject = new AcceptRejectModel({
+      Email,
+      EventName,
+      AcceptOrReject,
+    });
 
-      // Save the new accept/reject data to the database
-      const savedAcceptReject = await newAcceptReject.save();
+    // Save the new accept/reject data to the database
+    const savedAcceptReject = await newAcceptReject.save();
 
-      // Respond with success message and the saved accept/reject data
-      res.status(201).json(savedAcceptReject);
+    // Respond with success message and the saved accept/reject data
+    res.status(201).json(savedAcceptReject);
   } catch (error) {
-      // If an error occurs, respond with an error status and message
-      console.error('Error adding accept/reject data:', error);
-      res.status(500).json({ error: 'Failed to add accept/reject data' });
+    // If an error occurs, respond with an error status and message
+    console.error("Error adding accept/reject data:", error);
+    res.status(500).json({ error: "Failed to add accept/reject data" });
   }
 });
 
-app.get('/checkAcceptReject', async (req, res) => {
+app.get("/checkAcceptReject", async (req, res) => {
   try {
     const { email, eventName } = req.query;
     // Check if the combination exists in the AcceptRejectModel
-    const acceptReject = await AcceptRejectModel.findOne({ Email: email, EventName: eventName });
+    const acceptReject = await AcceptRejectModel.findOne({
+      Email: email,
+      EventName: eventName,
+    });
     // Return true if the combination exists, false otherwise
     res.json(acceptReject);
   } catch (error) {
-    console.error('Error checking accept/reject:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error checking accept/reject:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.put('/updateEvent/:eventId', async (req, res) => {
+app.put("/updateEvent/:eventId", async (req, res) => {
   try {
     const eventId = req.params.eventId;
     const updatedEventData = req.body;
@@ -320,18 +350,18 @@ app.put('/updateEvent/:eventId', async (req, res) => {
     );
 
     if (!updatedEvent) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ message: "Event not found" });
     }
 
     // Respond with the updated event document
     res.status(200).json(updatedEvent);
   } catch (error) {
-    console.error('Error updating event:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error updating event:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-app.delete('/deleteEvent/:eventId', async (req, res) => {
+app.delete("/deleteEvent/:eventId", async (req, res) => {
   try {
     const eventId = req.params.eventId;
 
@@ -339,36 +369,65 @@ app.delete('/deleteEvent/:eventId', async (req, res) => {
     const deletedEvent = await EventModel.findByIdAndDelete(eventId);
 
     if (!deletedEvent) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ message: "Event not found" });
     }
 
     // Respond with a success message
-    res.status(200).json({ message: 'Event deleted successfully' });
+    res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
-    console.error('Error deleting event:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error deleting event:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-app.post('/send-email', async (req, res) => {
+app.post("/send-email", async (req, res) => {
   try {
     // Destructure email details from the request body
     const { name, subject, body, eventName } = req.body;
 
     const emailText = `Hello,\n\n${name} is intrested in ${eventName}.`;
-    await sendEmail('jeffcrjj@gmail.com', "Account Created", body, transporter);
+    await sendEmail("jeffcrjj@gmail.com", "Account Created", body, transporter);
 
     // Log success message
-    console.log('Email sent successfully');
+    console.log("Email sent successfully");
 
     // Respond with success message
-    res.status(200).send('Email sent successfully');
+    res.status(200).send("Email sent successfully");
   } catch (error) {
     // Log error message
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
 
     // Respond with error message
-    res.status(500).send('Error sending email');
+    res.status(500).send("Error sending email");
+  }
+});
+
+app.get('/eventAlmostFull', async (req, res) => {
+  const users = await UserModel.find({}, "Email");
+  for (const user of users) {
+    const email = user.Email;
+    const emailText = `Hello ,\n\Event is almost full. Visit website to register\nWebsite Link : http://localhost:3000/Events`;
+
+    try {
+      // Send email to the current user
+      await sendEmail(email, "New Event", emailText, transporter);
+      console.log(`Email sent successfully to ${email}`);
+      res.status(200).send("Done")
+    } catch (error) {
+      console.error(`Error sending email to ${email}:`, error);
+    }
+  }
+});
+
+app.post('/Confirmation', async (req, res) => {
+  try {
+    const { Email, EventName } = req.body;
+    const emailText = `Hello ,\n\nYou have been registered for the event ${EventName}.\n\nWebsite Link : http://localhost:3000/login`;
+    await sendEmail(Email, "Account Created", emailText, transporter);
+    res.status(200).json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 

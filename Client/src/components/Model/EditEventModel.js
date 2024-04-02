@@ -6,6 +6,7 @@ import axios from 'axios';
 
 export const EditEventModel = (props) => {
   const [editedEvent, setEditedEvent] = useState({
+    EventName: props.event.EventName, 
     StartTime: props.event.StartTime,
     EndTime: props.event.EndTime,
     EventStartDate: props.event.EventStartDate,
@@ -59,7 +60,9 @@ export const EditEventModel = (props) => {
           <Modal.Title>Edit Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Event Name: {props.event.EventName}</p>
+          <p>
+            Event Name: <input type="text" name="Eventname" value={editedEvent.EventName} onChange={handleInputChange} />
+          </p>
           <p>
             Start Time: <input type="text" name="StartTime" value={editedEvent.StartTime} onChange={handleInputChange} />
           </p>

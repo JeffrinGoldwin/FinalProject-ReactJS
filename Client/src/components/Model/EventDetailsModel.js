@@ -76,11 +76,35 @@ export const EventDetailsModel = ({
     handleClose();
   };
 
+  const HandleEventAlmostFill = async () => {
+    try {
+      const response = await axios.get('https://localhost:3001/eventAlmostFull');
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  const HandleConfirmation = async () => {
+    try {
+      const response = await axios.post('http://localhost:3001/Confirmation', {
+      Email: currentUser.Email,
+      EventName : selectedEvent.EventName
+    });
+    } catch (error) {
+      console.error('Error in confirmation:', error);
+    }
+  }
+
   const handleAccept = async () => {
     try {
       // Increment event.accept by 1 locally
       const updatedEvent = { ...event, Accepted: event.Accepted + 1 };
       console.log("up data", updatedEvent);
+
+      HandleConfirmation();
+      if(selectedEvent.Capacity - selectedEvent.Accepted == 5 ){
+        HandleEventAlmostFill();
+      }
 
       // Make an API call to update the event in the database
       const response = await axios.put(
@@ -263,7 +287,13 @@ export const EventDetailsModel = ({
         <div>
             {(currentUser.Email === email && eventTitle === selectedEvent.EventName) ? (
               <>
-              <u><span style={{color:"blue"}} onClick={handleSpanClick}>{clicked ? 'Notified !' : 'Click Here if you are intrested'}</span></u>
+              {selectedEvent.Capacity-selectedEvent.Accepted == 0 ? (
+                  <u>
+                    <span style={{ color: "blue" }} onClick={handleSpanClick}>
+                      {clicked ? 'Notified!' : 'Click Here if you are interested'}
+                    </span>
+                  </u>
+                ) : null}
               {' '}
               <Button variant="secondary" disabled>Answered</Button>
               </>
