@@ -306,6 +306,30 @@ app.get('/checkAcceptReject', async (req, res) => {
   }
 });
 
+app.put('/updateEvent/:eventId', async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const updatedEventData = req.body;
+
+    // Find the existing event document using the eventId and update it
+    const updatedEvent = await EventModel.findByIdAndUpdate(
+      eventId,
+      updatedEventData,
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    // Respond with the updated event document
+    res.status(200).json(updatedEvent);
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import axios from "axios";
+import { EditEventModel } from "./EditEventModel";
 
 export const EventDetailsModel = ({
   eventDetailsModelshow,
@@ -14,6 +15,8 @@ export const EventDetailsModel = ({
   const [currentUser, setCurrentUser] = useState([]);
   const [email, setemail] = useState("");
   const [eventTitle, seteventTitle] = useState("");
+  const [editable, setEditable] = useState(false);
+  const [editModelShow, setEditModelShow] = useState(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -40,10 +43,6 @@ export const EventDetailsModel = ({
           // Set the email and event title from the response data
           setemail(response.data.Email);
           seteventTitle(response.data.EventName);
-          console.log(response.data.Email);
-          console.log(response.data.EventName);
-          console.log(currentUser.Email);
-          console.log(event.EventName);
         }
       } catch (error) {
         console.error("Error checking accept/reject:", error);
@@ -52,6 +51,13 @@ export const EventDetailsModel = ({
 
     checkAcceptReject();
   }, [currentUser.Email, event.EventName]);
+
+  
+  const handleEdit = () => {
+    setEditable(true);
+  };
+
+  const handleModelShow = () => setEditModelShow(true);
 
   const handleAccept = async () => {
     try {
@@ -235,10 +241,15 @@ export const EventDetailsModel = ({
         </div>
         ) : (
         <div>
-            <p>You are not authorized to perform this action.</p>
+            <Button variant="primary" onClick={handleModelShow}>Edit</Button>
         </div>
         )}
         </Modal.Footer>
+        <EditEventModel 
+          editModelShow = {editModelShow}
+          setEditModelShow = {setEditModelShow}
+          event = {event}
+        />
       </Modal>
     </div>
   );
