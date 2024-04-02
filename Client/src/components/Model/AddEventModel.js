@@ -17,10 +17,11 @@ export const AddEventModel = (props) => {
   const [rejected, setRejected] = useState(0);
   const [maybe, setMaybe] = useState(0);
 
-  const handleClose = () => props.setShow(false);
+  const handleCloseModel = () => props.setShow(false);
 
   const handleAddEvent = async () => {
     try {
+      handleCloseModel();
       const response = await axios.post("http://localhost:3001/addEvent", {
         EventName: eventName,
         StartTime: startTime,
@@ -45,7 +46,6 @@ export const AddEventModel = (props) => {
       setAccepted(0);
       setRejected(0);
       setMaybe(0);
-      handleClose();
     } catch (error) {
       console.error("Error adding event:", error);
     }
@@ -55,7 +55,7 @@ export const AddEventModel = (props) => {
     <div>
       <Modal
         show={props.show}
-        onHide={handleClose}
+        onHide={handleCloseModel}
         backdrop="static"
         keyboard={false}
       >

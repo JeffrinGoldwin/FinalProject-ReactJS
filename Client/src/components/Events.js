@@ -39,7 +39,7 @@ export const Events = () => {
         };
     
         fetchEvents();
-      }, []);
+      }, [events]);
 
 
     const handleShow = () => setShow(true);

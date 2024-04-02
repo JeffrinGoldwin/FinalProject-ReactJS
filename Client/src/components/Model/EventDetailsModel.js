@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import axios from "axios";
 import { EditEventModel } from "./EditEventModel";
@@ -14,8 +13,8 @@ export const EventDetailsModel = ({
 }) => {
   const [currentUser, setCurrentUser] = useState([]);
   const [email, setemail] = useState("");
+  const [selectedEvent, setselectedEvent] = useState({});
   const [eventTitle, seteventTitle] = useState("");
-  const [editable, setEditable] = useState(false);
   const [editModelShow, setEditModelShow] = useState(false);
 
   useEffect(() => {
@@ -52,12 +51,16 @@ export const EventDetailsModel = ({
     checkAcceptReject();
   }, [currentUser.Email, event.EventName]);
 
+  useEffect(() => {
+    setselectedEvent(event)
+  }, [event])
   
-  const handleEdit = () => {
-    setEditable(true);
-  };
 
-  const handleModelShow = () => setEditModelShow(true);
+
+  const handleModelShow = () => {
+    setEditModelShow(true);
+    handleClose();
+  };
 
   const handleAccept = async () => {
     try {
@@ -168,7 +171,22 @@ export const EventDetailsModel = ({
     }
   };
 
-
+  const handleDelete = async () => {
+    try {
+      // Make an API call to delete the event
+      const response = await axios.delete(`http://localhost:3001/deleteEvent/${event._id}`);
+  
+      // Check if the event was deleted successfully
+      if (response.status === 200) {
+        console.log('Event deleted successfully');
+        handleClose(); // Close the modal or perform any other necessary actions
+      } else {
+        console.error('Failed to delete event:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
+  };
 
   return (
     <div>
@@ -183,36 +201,36 @@ export const EventDetailsModel = ({
         </Modal.Header>
         <Modal.Body>
           <p>
-            <strong>Event Name:</strong> {event.EventName}
+            <strong>Event Name:</strong> {selectedEvent.EventName}
           </p>
           <p>
-            <strong>Start Time:</strong> {event.StartTime}
+            <strong>Start Time:</strong> {selectedEvent.StartTime}
           </p>
           <p>
-            <strong>End Time:</strong> {event.EndTime}
+            <strong>End Time:</strong> {selectedEvent.EndTime}
           </p>
           <p>
-            <strong>Start Date:</strong> {event.EventStartDate}
+            <strong>Start Date:</strong> {selectedEvent.EventStartDate}
           </p>
           <p>
-            <strong>End Date:</strong> {event.EventEndDate}
+            <strong>End Date:</strong> {selectedEvent.EventEndDate}
           </p>
           <p>
-            <strong>Venue:</strong> {event.Venue}
+            <strong>Venue:</strong> {selectedEvent.Venue}
           </p>
           <p>
-            <strong>Description:</strong> {event.Description}
+            <strong>Description:</strong> {selectedEvent.Description}
           </p>
           {currentUser.Role === "Admin" && (
           <>
           <p>
-            <strong>Accepted:</strong> {event.Accepted}
+            <strong>Accepted:</strong> {selectedEvent.Accepted}
           </p>
           <p>
-            <strong>Rejected:</strong> {event.Rejected}
+            <strong>Rejected:</strong> {selectedEvent.Rejected}
           </p>
           <p>
-            <strong>Maybe:</strong> {event.Maybe}
+            <strong>Maybe:</strong> {selectedEvent.Maybe}
           </p>
           </>
           )}
@@ -220,7 +238,7 @@ export const EventDetailsModel = ({
         <Modal.Footer>
         {currentUser.Role === "User" ? (
         <div>
-            {(currentUser.Email === email && eventTitle === event.EventName) ? (
+            {(currentUser.Email === email && eventTitle === selectedEvent.EventName) ? (
             <Button variant="secondary" disabled>Answered</Button>
             ) : (
             <Dropdown as={ButtonGroup}>
@@ -241,16 +259,18 @@ export const EventDetailsModel = ({
         </div>
         ) : (
         <div>
+            <Button variant="primary" onClick={handleDelete}>Delete</Button>
+            {' '}
             <Button variant="primary" onClick={handleModelShow}>Edit</Button>
         </div>
         )}
         </Modal.Footer>
+      </Modal>
         <EditEventModel 
           editModelShow = {editModelShow}
           setEditModelShow = {setEditModelShow}
           event = {event}
         />
-      </Modal>
     </div>
   );
 };
