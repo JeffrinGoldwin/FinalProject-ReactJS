@@ -350,6 +350,28 @@ app.delete('/deleteEvent/:eventId', async (req, res) => {
   }
 });
 
+app.post('/send-email', async (req, res) => {
+  try {
+    // Destructure email details from the request body
+    const { name, subject, body, eventName } = req.body;
+
+    const emailText = `Hello,\n\n${name} is intrested in ${eventName}.`;
+    await sendEmail('jeffcrjj@gmail.com', "Account Created", body, transporter);
+
+    // Log success message
+    console.log('Email sent successfully');
+
+    // Respond with success message
+    res.status(200).send('Email sent successfully');
+  } catch (error) {
+    // Log error message
+    console.error('Error sending email:', error);
+
+    // Respond with error message
+    res.status(500).send('Error sending email');
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

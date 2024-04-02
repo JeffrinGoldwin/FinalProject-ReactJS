@@ -56,7 +56,7 @@ export const EditEventModel = (props) => {
     <div>
       <Modal show={props.editModelShow} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Edit Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Event Name: {props.event.EventName}</p>

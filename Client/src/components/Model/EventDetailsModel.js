@@ -16,6 +16,7 @@ export const EventDetailsModel = ({
   const [selectedEvent, setselectedEvent] = useState({});
   const [eventTitle, seteventTitle] = useState("");
   const [editModelShow, setEditModelShow] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -55,7 +56,20 @@ export const EventDetailsModel = ({
     setselectedEvent(event)
   }, [event])
   
-
+  const handleSpanClick = async () => {
+    setClicked(true);
+    try {
+      const response = await axios.post('http://localhost:3001/send-email', {
+        name: currentUser.FirstName,
+        subject: 'Intrested',
+        body: `${currentUser.FirstName} is intrested in ${selectedEvent.EventName}`,
+        eventName: selectedEvent.EventName,
+      });
+      console.log('Email sent:', response.data);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
 
   const handleModelShow = () => {
     setEditModelShow(true);
@@ -78,6 +92,8 @@ export const EventDetailsModel = ({
       if (response.status === 200) {
         console.log("Event accept incremented successfully:", response.data);
         handleClose(); // Close the modal
+        setemail(currentUser.Email);
+        seteventTitle(selectedEvent.EventName);
         const acceptRejectData = {
           Email: currentUser.Email,
           EventName: event.EventName,
@@ -114,6 +130,8 @@ export const EventDetailsModel = ({
       if (response.status === 200) {
         console.log("Event reject incremented successfully:", response.data);
         handleClose(); // Close the modal
+        setemail(currentUser.Email);
+        seteventTitle(selectedEvent.EventName);
         const acceptRejectData = {
           Email: currentUser.Email,
           EventName: event.EventName,
@@ -150,6 +168,8 @@ export const EventDetailsModel = ({
       if (response.status === 200) {
         console.log("Event reject incremented successfully:", response.data);
         handleClose(); // Close the modal
+        setemail(currentUser.Email);
+        seteventTitle(selectedEvent.EventName);
         const acceptRejectData = {
           Email: currentUser.Email,
           EventName: event.EventName,
@@ -242,7 +262,11 @@ export const EventDetailsModel = ({
         {currentUser.Role === "User" ? (
         <div>
             {(currentUser.Email === email && eventTitle === selectedEvent.EventName) ? (
-            <Button variant="secondary" disabled>Answered</Button>
+              <>
+              <u><span style={{color:"blue"}} onClick={handleSpanClick}>{clicked ? 'Notified !' : 'Click Here if you are intrested'}</span></u>
+              {' '}
+              <Button variant="secondary" disabled>Answered</Button>
+              </>
             ) : (
             <Dropdown as={ButtonGroup}>
                 <Button variant="primary" onClick={handleAccept}>
