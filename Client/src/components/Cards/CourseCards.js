@@ -62,7 +62,9 @@ const CourseCards = (props) => {
                                     height: '70px', // Set the desired height for the cards
                                     overflow: 'scroll', // Hide any overflow content
                                 }}>{video.VideoDescription}</Card.Text>
-                                <Button variant="primary">Go somewhere</Button>
+                                {props.Role==="Admin" && <Button>Edit</Button>}
+                                {props.Role==="User" && <Button>Go To course</Button>}
+                                {console.log("hii")}
                             </Card.Body>
                         </Card>
                     </Col>

@@ -58,6 +58,7 @@ export const Courses = () => {
         <NavBar />
         <CourseCards 
         videoData={videoData}
+        Role = {currentUser.Role}
       />
       {currentUser.Role === 'Admin' && (
         <div style={{ position: 'fixed', bottom: '20px', right: '20px' }}>

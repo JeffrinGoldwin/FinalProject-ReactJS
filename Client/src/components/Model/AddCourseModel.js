@@ -66,6 +66,7 @@ export const AddCourseModel = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleAddCourse} variant="primary">Add</Button>
+          
         </Modal.Footer>
       </Modal>
     </div>
