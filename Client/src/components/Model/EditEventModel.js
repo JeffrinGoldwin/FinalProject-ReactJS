@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import axios from 'axios';
 
 export const EditEventModel = (props) => {
+  const token = sessionStorage.getItem('token');
   const [editedEvent, setEditedEvent] = useState({
     EventName: props.event.EventName, 
     StartTime: props.event.StartTime,
@@ -35,11 +36,15 @@ export const EditEventModel = (props) => {
 
   const handleSave = async () => {
     try {
-      // Make an API call to update the event in the backend
-      const response = await axios.put(
-        `http://localhost:3001/updateEvent/${props.event._id}`,
-        editedEvent
-      );
+      const response = await axios.put(`http://localhost:3001/updateEvent/${props.event._id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: {
+          editedEvent
+        }
+      });
 
       // Check if the update was successful
       if (response.status === 200) {

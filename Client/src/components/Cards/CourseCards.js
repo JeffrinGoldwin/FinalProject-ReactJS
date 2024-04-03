@@ -5,12 +5,18 @@ import Button from 'react-bootstrap/Button';
 
 const CourseCards = (props) => {
     const [videoDetails, setVideoDetails] = useState([]);
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
         const fetchVideoDetails = async () => {
             try {
                 const videoIds = props.videoData.map(video => getVideoIdFromUrl(video.VideoURL));
-                const response = await axios.get(`https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAl4QaW5zS1oP1U_c0sqmbRHF7DZRG6hGw&part=contentDetails&id=${videoIds.join(',')}`);
+                const response = await axios.get(`https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAl4QaW5zS1oP1U_c0sqmbRHF7DZRG6hGw&part=contentDetails&id=${videoIds.join(',')}`, {
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`
+                    }
+                  });
                 setVideoDetails(response.data.items);
             } catch (error) {
                 console.error('Error fetching video details:', error);

@@ -12,11 +12,17 @@ export const Courses = () => {
     const [videoData, setVideoData] = useState([]);
     const [show, setShow] = useState(false);
     const location = useLocation();
+    const token = sessionStorage.getItem('token')
 
     useEffect(() => {
         const fetchCurrentUser = async () => {
           try {
-            const response = await axios.get("http://localhost:3001/currentUser");
+            const response = await axios.get("http://localhost:3001/currentUser", {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              }
+            });
             setCurrentUser(response.data);
           } catch (error) {
             console.error("Error fetching current user:", error);
@@ -30,7 +36,12 @@ export const Courses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/courses");
+                const response = await axios.get("http://localhost:3001/courses", {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                  }
+                });
                 setVideoData(response.data);
             } catch (error) {
                 console.error("Error fetching courses:", error);

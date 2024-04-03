@@ -17,6 +17,7 @@ export const AddEventModel = (props) => {
   const [accepted, setAccepted] = useState(0);
   const [rejected, setRejected] = useState(0);
   const [maybe, setMaybe] = useState(0);
+  const token = sessionStorage.getItem('token');
 
   const handleCloseModel = () => props.setShow(false);
 
@@ -24,18 +25,24 @@ export const AddEventModel = (props) => {
     try {
       handleCloseModel();
       const response = await axios.post("http://localhost:3001/addEvent", {
-        EventName: eventName,
-        StartTime: startTime,
-        EndTime: endTime,
-        EventStartDate: eventStartDate.toISOString(),
-        EventEndDate: eventEndDate.toISOString(),
-        Venue: venue,
-        Capacity : capacity,
-        Description: description,
-        Accepted: accepted,
-        Rejected: rejected,
-        Maybe: maybe,
-      });
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: {
+          EventName: eventName,
+          StartTime: startTime,
+          EndTime: endTime,
+          EventStartDate: eventStartDate.toISOString(),
+          EventEndDate: eventEndDate.toISOString(),
+          Venue: venue,
+          Capacity : capacity,
+          Description: description,
+          Accepted: accepted,
+          Rejected: rejected,
+          Maybe: maybe,
+        }
+      })
       console.log("Event added successfully:", response.data);
       // Clear input fields
       setEventName("");

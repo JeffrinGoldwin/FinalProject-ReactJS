@@ -4,21 +4,23 @@ import {useLocation } from "react-router-dom";
 import { UserCreationForm } from "./UserCreationForm";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar"
-import CourseCards from "./Cards/CourseCards"
-import { Courses } from "./Courses";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-
   const [currentUser, setCurrentUser] = useState([]);
-  const [courses, setcourses] = useState([{title:"A"}, {title:"B"}]);
-  const [videoData, setVideoData] = useState([]);
   const location = useLocation();
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/currentUser");
+        const response = await axios.get('http://localhost:3001/currentUser', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log("data", response)
         setCurrentUser(response.data);
       } catch (error) {
         console.error("Error fetching current user:", error);
@@ -30,23 +32,10 @@ export const LandingPage = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    console.log("User", currentUser); // Log the currentUser whenever it changes
+    console.log("User", currentUser);
     if (currentUser.PasswordChanged === "False") {
       navigate("/ChangePassword");
     }
-  }, [currentUser]);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/courses");
-        setVideoData(response.data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-
-    fetchCourses();
   }, []);
 
   return (

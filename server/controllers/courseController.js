@@ -1,4 +1,7 @@
 const CourseModel = require("../models/course")
+const UserModel = require("../models/user")
+const {sendEmail} = require("../utils/SendMail")
+const transporter = require("../utils/Transporter")
 
 const courses = async (req, res) => {
     try {

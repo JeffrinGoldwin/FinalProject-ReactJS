@@ -8,11 +8,17 @@ export const ChangePassword = () => {
     const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState('12345')
     const [currentUser, setCurrentUser] = useState([]);
+    const token = sessionStorage.getItem('token')
 
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
-              const response = await axios.get('http://localhost:3001/currentUser'); // Assuming this endpoint returns the current user data
+              const response = await axios.get('http://localhost:3001/currentUser', {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                }
+              }); // Assuming this endpoint returns the current user data
               // console.log(response.data);
               setCurrentUser(response.data);
             } catch (error) {
@@ -31,14 +37,23 @@ export const ChangePassword = () => {
 
   const handleChangePassword = () => {
     // Here you can add your logic to send the new password to the server and update the user's password
-    axios.post('http://localhost:3001/changePassword', { newPassword: newPassword  })
-      .then(response => {
-        console.log('Password changed successfully');
-        navigate("/Login");
-      }) 
-      .catch(error => {
-        console.error('Error changing password:', error);
-      });
+    axios.post(
+      'http://localhost:3001/changePassword', 
+      { newPassword: newPassword }, // Request body
+      {
+        headers: {
+          'Content-Type': 'application/json', // Request headers
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    )
+    .then(response => {
+      console.log('Password changed successfully');
+      navigate("/Login");
+    }) 
+    .catch(error => {
+      console.error('Error changing password:', error);
+    });
   };
 
   return (

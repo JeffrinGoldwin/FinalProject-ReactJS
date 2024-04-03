@@ -5,27 +5,28 @@ const authController = require('../controllers/authController');
 const courseController = require('../controllers/courseController');
 const eventController = require('../controllers/eventController');
 const acceptrejectController = require("../controllers/acceptrejectController");
+const verifyToken = require("../utils/verifyJWT")
 
-router.get('/currentUser', authController.currentUser)
+router.get('/currentUser', verifyToken, authController.currentUser)
 router.post('/login', authController.login)
-router.post('/changePassword', authController.changePassword)
+router.post('/changePassword', verifyToken, authController.changePassword)
 
-router.get('/getUsers', userController.getUser)
-router.post('/createUser', userController.createUser);
+router.get('/getUsers', verifyToken, userController.getUser)
+router.post('/createUser', verifyToken, userController.createUser);
 
-router.get('/courses', courseController.courses)
-router.post('/addCourse', courseController.addCourse)
+router.get('/courses', verifyToken, courseController.courses)
+router.post('/addCourse', verifyToken, courseController.addCourse)
 
-router.get('/events', eventController.events)
-router.get('/eventAlmostFull', eventController.eventAlmostFull)
-router.post('/addEvent', eventController.addEvent)
-router.post('/send-email', eventController.sendIntrestedMail)
-router.post('/Confirmation', eventController.confirmation)
-router.put('/updateEvent/:id', eventController.updateEvent)
-router.put('updateEventStatus/:eventId', eventController.updateEventStatus)
-router.delete('/deleteEvent/:eventId', eventController.deleteEvent)
+router.get('/events', verifyToken, eventController.events)
+router.get('/eventAlmostFull', verifyToken, eventController.eventAlmostFull)
+router.post('/addEvent', verifyToken, eventController.addEvent)
+router.post('/send-email', verifyToken, eventController.sendIntrestedMail)
+router.post('/Confirmation', verifyToken, eventController.confirmation)
+router.put('/updateEvent/:id', verifyToken, eventController.updateEvent)
+router.put('updateEventStatus/:eventId', verifyToken, eventController.updateEventStatus)
+router.delete('/deleteEvent/:eventId', verifyToken, eventController.deleteEvent)
 
-router.get('/checkAcceptReject', acceptrejectController.checkAcceptReject)
-router.post('/addAcceptReject', acceptrejectController.addAcceptReject)
+router.get('/checkAcceptReject', verifyToken, acceptrejectController.checkAcceptReject)
+router.post('/addAcceptReject', verifyToken, acceptrejectController.addAcceptReject)
 
 module.exports = router;

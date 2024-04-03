@@ -12,6 +12,7 @@ export const UserCreationForm = () => {
   const [age, setAge] = useState('21');
   const [role, setRole] = useState('User');
   const [passwordChanged, setPasswordChanged] = useState('False');
+  const token = sessionStorage.getItem('token')
 
   const handleCreateUser = async (e) => {
     e.preventDefault();    
@@ -28,7 +29,15 @@ export const UserCreationForm = () => {
     try {
       // Make a POST request to your backend server to create the user
       // console.log("User new" ,newUser)
-      const response = await axios.post('http://localhost:3001/createUser', newUser);
+      const response = await axios.post('http://localhost:3001/createUser', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body : {
+          newUser
+        }
+      });
           console.log('User created successfully:', response.data);
         console.log(response.data)
         

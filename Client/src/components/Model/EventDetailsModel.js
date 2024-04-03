@@ -17,11 +17,17 @@ export const EventDetailsModel = ({
   const [eventTitle, seteventTitle] = useState("");
   const [editModelShow, setEditModelShow] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const token = sessionStorage.getItem('token')
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/currentUser");
+        const response = await axios.get("http://localhost:3001/currentUser", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setCurrentUser(response.data);
       } catch (error) {
         console.error("Error fetching current user:", error);
@@ -36,7 +42,12 @@ export const EventDetailsModel = ({
     const checkAcceptReject = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/checkAcceptReject?email=${currentUser.Email}&eventName=${event.EventName}`
+          `http://localhost:3001/checkAcceptReject?email=${currentUser.Email}&eventName=${event.EventName}` , {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          }
         );
         // Check if the response contains data
         if (response.data) {
@@ -60,11 +71,17 @@ export const EventDetailsModel = ({
     setClicked(true);
     try {
       const response = await axios.post('http://localhost:3001/send-email', {
-        name: currentUser.FirstName,
-        subject: 'Intrested',
-        body: `${currentUser.FirstName} is intrested in ${selectedEvent.EventName}`,
-        eventName: selectedEvent.EventName,
-      });
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body : {
+          name: currentUser.FirstName,
+          subject: 'Intrested',
+          body: `${currentUser.FirstName} is intrested in ${selectedEvent.EventName}`,
+          eventName: selectedEvent.EventName,
+        }
+      })
       console.log('Email sent:', response.data);
     } catch (error) {
       console.error('Error sending email:', error);
@@ -78,7 +95,12 @@ export const EventDetailsModel = ({
 
   const HandleEventAlmostFill = async () => {
     try {
-      const response = await axios.get('https://localhost:3001/eventAlmostFull');
+      const response = await axios.get('https://localhost:3001/eventAlmostFull', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -86,10 +108,16 @@ export const EventDetailsModel = ({
 
   const HandleConfirmation = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/Confirmation', {
-      Email: currentUser.Email,
-      EventName : selectedEvent.EventName
-    });
+      const response = await axios.put('http://localhost:3001/Confirmation' , {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body : {
+          Email: currentUser.Email,
+          EventName : selectedEvent.EventName
+        }
+      })
     } catch (error) {
       console.error('Error in confirmation:', error);
     }
@@ -107,10 +135,15 @@ export const EventDetailsModel = ({
       }
 
       // Make an API call to update the event in the database
-      const response = await axios.put(
-        `http://localhost:3001/updateEventStatus/${event._id}`,
-        updatedEvent
-      );
+      const response = await axios.put(`http://localhost:3001/updateEventStatus/${event._id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body : {
+          updatedEvent
+        }
+      });
 
       // Check if the update was successful
       if (response.status === 200) {
@@ -123,10 +156,15 @@ export const EventDetailsModel = ({
           EventName: event.EventName,
           AcceptOrReject: "1",
         };
-        const acceptRejectResponse = await axios.post(
-          "http://localhost:3001/addAcceptReject",
-          acceptRejectData
-        );
+        const acceptRejectResponse = await axios.post("http://localhost:3001/addAcceptReject", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body : {
+            acceptRejectData
+          }
+        });
         console.log(
           "Accept/reject data added successfully:",
           acceptRejectResponse.data
@@ -145,10 +183,15 @@ export const EventDetailsModel = ({
       console.log("up data", updatedEvent);
 
       // Make an API call to update the event in the database
-      const response = await axios.put(
-        `http://localhost:3001/updateEventStatus/${event._id}`,
-        updatedEvent
-      );
+      const response = await axios.put(`http://localhost:3001/updateEventStatus/${event._id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body : {
+          updatedEvent
+        }
+      });
 
       // Check if the update was successful
       if (response.status === 200) {
@@ -161,10 +204,15 @@ export const EventDetailsModel = ({
           EventName: event.EventName,
           AcceptOrReject: "2",
         };
-        const acceptRejectResponse = await axios.post(
-          "http://localhost:3001/addAcceptReject",
-          acceptRejectData
-        );
+        const acceptRejectResponse = await axios.post("http://localhost:3001/addAcceptReject", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body:{
+            acceptRejectData
+          }
+        });
         console.log(
           "Accept/reject data added successfully:",
           acceptRejectResponse.data
@@ -184,9 +232,15 @@ export const EventDetailsModel = ({
 
       // Make an API call to update the event in the database
       const response = await axios.put(
-        `http://localhost:3001/updateEventStatus/${event._id}`,
-        updatedEvent
-      );
+        `http://localhost:3001/updateEventStatus/${event._id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body : {
+            updatedEvent
+          }
+        });
 
       // Check if the update was successful
       if (response.status === 200) {
@@ -199,10 +253,15 @@ export const EventDetailsModel = ({
           EventName: event.EventName,
           AcceptOrReject: "3",
         };
-        const acceptRejectResponse = await axios.post(
-          "http://localhost:3001/addAcceptReject",
-          acceptRejectData
-        );
+        const acceptRejectResponse = await axios.post("http://localhost:3001/addAcceptReject", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body : {
+            acceptRejectData
+          }
+        });
         console.log(
           "Accept/reject data added successfully:",
           acceptRejectResponse.data
@@ -218,8 +277,12 @@ export const EventDetailsModel = ({
   const handleDelete = async () => {
     try {
       // Make an API call to delete the event
-      const response = await axios.delete(`http://localhost:3001/deleteEvent/${event._id}`);
-  
+      const response = await axios.delete(`http://localhost:3001/deleteEvent/${event._id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
       // Check if the event was deleted successfully
       if (response.status === 200) {
         console.log('Event deleted successfully');

@@ -9,16 +9,24 @@ export const AddCourseModel = (props) => {
     const [videoUrl, setVideoUrl] = useState('');
     const [courseTitle, setCourseTitle] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
+    const token = sessionStorage.getItem('token');
+
 
   const handleClose = () => props.setShow(false);
 
   const handleAddCourse = async () => {
     try {
-        const response = await axios.post("http://localhost:3001/addCourse", {
+        const response = await axios.post("http://localhost:3001/addCourse" , {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: {
             videoUrl,
             courseTitle,
             courseDescription
-        });
+          }
+        })
         console.log("Course added successfully:", response.data);
         setVideoUrl('');
         setCourseTitle('');

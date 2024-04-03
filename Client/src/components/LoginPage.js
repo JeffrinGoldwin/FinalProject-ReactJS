@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const LoginPage = (props) => {
+  sessionStorage.clear()
   return (
     <div>
       Email : <input type="text" value={props.loginEmail} onChange={(e) => props.setloginEmail(e.target.value)}/>

@@ -13,11 +13,17 @@ export const Events = () => {
     const [currentUser, setCurrentUser] = useState([]);
     const location = useLocation();
     const [events, setEvents] = useState([]);
+    const token = sessionStorage.getItem('token')
 
     useEffect(() => {
         const fetchCurrentUser = async () => {
           try {
-            const response = await axios.get("http://localhost:3001/currentUser");
+            const response = await axios.get("http://localhost:3001/currentUser", {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              }
+            });
             setCurrentUser(response.data);
           } catch (error) {
             console.error("Error fetching current user:", error);
@@ -31,7 +37,12 @@ export const Events = () => {
       useEffect(() => {
         const fetchEvents = async () => {
           try {
-            const response = await axios.get('http://localhost:3001/events');
+            const response = await axios.get('http://localhost:3001/events', {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              }
+            });
             setEvents(response.data);
           } catch (error) {
             console.error('Error fetching events:', error);
