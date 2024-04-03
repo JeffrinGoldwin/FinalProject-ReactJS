@@ -44,12 +44,12 @@ export const Courses = () => {
                 });
                 setVideoData(response.data);
             } catch (error) {
-                console.error("Error fetching courses:", error);
+                // console.log("Error fetching courses:", error); 
             }
         };
         
         fetchCourses();
-    }, [setShow]);
+    }, [videoData]);
     
     const handleShow = () => setShow(true);
 

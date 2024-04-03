@@ -8,7 +8,7 @@ const courses = async (req, res) => {
         const allCourses = await CourseModel.find();
         res.json(allCourses);
       } catch (error) {
-        console.error("Error fetching courses:", error);
+        console.log("Error fetching courses:", error);
         res.status(500).json({ error: "Internal server error" });
       }
 }
@@ -50,4 +50,36 @@ const addCourse = async (req, res) => {
   }
 }
 
-module.exports = {courses, addCourse}
+const editCourse = async (req, res) => {
+  const updatedData = req.body.updatedData;
+
+  try {
+    console.log(req.body.updatedData)
+      const updatedCourse = await CourseModel.findByIdAndUpdate(updatedData._id, updatedData, { new: true });
+
+      if (!updatedCourse) {
+          return res.status(404).json({ error: 'Course not found' });
+      }
+      res.json(updatedCourse);
+  } catch (error) {
+      console.error('Error updating video data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const deleteCourse = async (req, res) => {
+  try{
+    const courseId = req.params.id;
+    const deletedCourse = await CourseModel.findByIdAndDelete(courseId);
+    if (!deletedCourse) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+    res.status(200).json({ message: "Course deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+module.exports = {courses, addCourse, editCourse, deleteCourse}

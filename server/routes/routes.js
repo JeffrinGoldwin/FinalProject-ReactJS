@@ -16,6 +16,8 @@ router.post('/createUser', verifyToken, userController.createUser);
 
 router.get('/courses', verifyToken, courseController.courses)
 router.post('/addCourse', verifyToken, courseController.addCourse)
+router.put('/EditCourse', verifyToken, courseController.editCourse)
+router.delete('/DeleteVideo/:id', verifyToken, courseController.deleteCourse)
 
 router.get('/events', verifyToken, eventController.events)
 router.get('/eventAlmostFull', verifyToken, eventController.eventAlmostFull)

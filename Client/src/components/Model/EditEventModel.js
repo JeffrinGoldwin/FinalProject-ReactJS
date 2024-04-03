@@ -36,13 +36,10 @@ export const EditEventModel = (props) => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put(`http://localhost:3001/updateEvent/${props.event._id}`, {
+      const response = await axios.put(`http://localhost:3001/updateEvent/${props.event._id}`,editedEvent, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: {
-          editedEvent
         }
       });
 
