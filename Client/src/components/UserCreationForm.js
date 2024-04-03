@@ -24,13 +24,12 @@ export const UserCreationForm = () => {
       role,
       passwordChanged
     };
-
+    
     try {
-        // Make a POST request to your backend server to create the user
-        const response = await axios.post('http://localhost:3001/createUser', newUser);
-  
-        // Handle the response (if needed)
-        console.log('User created successfully:', response.data);
+      // Make a POST request to your backend server to create the user
+      // console.log("User new" ,newUser)
+      const response = await axios.post('http://localhost:3001/createUser', newUser);
+          console.log('User created successfully:', response.data);
         console.log(response.data)
         
       } catch (error) {

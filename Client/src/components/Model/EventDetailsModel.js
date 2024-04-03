@@ -108,7 +108,7 @@ export const EventDetailsModel = ({
 
       // Make an API call to update the event in the database
       const response = await axios.put(
-        `http://localhost:3001/updateEvent/${event._id}`,
+        `http://localhost:3001/updateEventStatus/${event._id}`,
         updatedEvent
       );
 
@@ -146,7 +146,7 @@ export const EventDetailsModel = ({
 
       // Make an API call to update the event in the database
       const response = await axios.put(
-        `http://localhost:3001/updateEvent/${event._id}`,
+        `http://localhost:3001/updateEventStatus/${event._id}`,
         updatedEvent
       );
 
@@ -184,7 +184,7 @@ export const EventDetailsModel = ({
 
       // Make an API call to update the event in the database
       const response = await axios.put(
-        `http://localhost:3001/updateEvent/${event._id}`,
+        `http://localhost:3001/updateEventStatus/${event._id}`,
         updatedEvent
       );
 

@@ -12,7 +12,7 @@ import { Events } from "./components/Events";
 function App() {
   const navigate = useNavigate();
   const [loginEmail, setloginEmail] = useState("jeffrin.2005031@srec.ac.in");
-  const [loginPassword, setloginPassword] = useState("O3DJ;MRUP!#D");
+  const [loginPassword, setloginPassword] = useState("12345");
 
   const handleLogin = async (e) => {
     try {
@@ -20,6 +20,8 @@ function App() {
         Email : loginEmail,
         Password: loginPassword,
       });
+      const { token } = response.data; 
+      sessionStorage.setItem('token', token)
       navigate("/LandingPage");
     } catch (error) {
       console.error("Login error:", error);
