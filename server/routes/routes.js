@@ -5,7 +5,8 @@ const authController = require('../controllers/authController');
 const courseController = require('../controllers/courseController');
 const eventController = require('../controllers/eventController');
 const acceptrejectController = require("../controllers/acceptrejectController");
-const verifyToken = require("../utils/verifyJWT")
+const skillController = require("../controllers/skillController");
+const verifyToken = require("../utils/verifyJWT");
 
 router.get('/currentUser', verifyToken, authController.currentUser)
 router.post('/login', authController.login)
@@ -31,5 +32,8 @@ router.delete('/deleteEvent/:eventId', verifyToken, eventController.deleteEvent)
 
 router.get('/checkAcceptReject', verifyToken, acceptrejectController.checkAcceptReject)
 router.post('/addAcceptReject', verifyToken, acceptrejectController.addAcceptReject)
+
+router.get('/getSkills', verifyToken, skillController.getSkills)
+router.post('/addSkills', verifyToken, skillController.addSkill)
 
 module.exports = router;

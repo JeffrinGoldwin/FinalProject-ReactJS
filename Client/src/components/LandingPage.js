@@ -4,6 +4,7 @@ import {useLocation } from "react-router-dom";
 import { UserCreationForm } from "./UserCreationForm";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar"
+import { UserSkillForm } from "./UserSkillForm";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ export const LandingPage = () => {
       <div>
         <p>Welcome {currentUser.FirstName} !</p>
         {currentUser.Role === "Admin" && <UserCreationForm />}
+        {currentUser.Role !== "Admin" && <UserSkillForm currentUser = {currentUser}/>}
       </div>
     </div>
   );
