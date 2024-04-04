@@ -16,17 +16,16 @@ export const AddCourseModel = (props) => {
 
   const handleAddCourse = async () => {
     try {
-        const response = await axios.post("http://localhost:3001/addCourse" , {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: {
-            videoUrl,
-            courseTitle,
-            courseDescription
-          }
-        })
+      const response = await axios.post("http://localhost:3001/addCourse" , {
+        videoUrl : videoUrl,
+        courseTitle : courseTitle,
+        courseDescription : courseDescription
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
         console.log("Course added successfully:", response.data);
         setVideoUrl('');
         setCourseTitle('');

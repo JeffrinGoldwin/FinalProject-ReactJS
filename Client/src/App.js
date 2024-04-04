@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ChangePassword } from "./components/ChangePassword";
 import { Courses } from "./components/Courses";
 import { Events } from "./components/Events";
-import { Video } from "./components/Video";
+import Video from "./components/Video";
 
 function App() {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ function App() {
         <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Events" element={<Events />} />
-        <Route path="Courses/video/:id" element={<Video />} />
+        <Route path="/Courses/video" element={<Video />} />
       </Routes>
     </div>
   );

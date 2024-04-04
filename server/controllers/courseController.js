@@ -81,5 +81,19 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+const fetchIndividualCourse = async (req, res) => {
+  try {
+    const { ID : ID } = req.body; // Extract ID from request body
+    const videoData = await CourseModel.findOne({ _id: ID });
+    if (!videoData) {
+      return res.status(404).json({ message: 'video not found' });
+    }
+    res.status(200).json(videoData);
+  } catch (error) {
+    console.error('Error fetching video data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
-module.exports = {courses, addCourse, editCourse, deleteCourse}
+
+module.exports = {courses, addCourse, editCourse, deleteCourse,fetchIndividualCourse}

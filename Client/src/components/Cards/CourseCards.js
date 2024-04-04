@@ -113,7 +113,7 @@ const CourseCards = (props) => {
 
     const handleGoTo = (index) => {
         const videoId = props.videoData[index]._id; // Assuming _id is the video ID
-        navigate(`video/${videoId}`);
+        navigate(`video?ID=${encodeURIComponent(videoId)}`);
     };
 
 
@@ -168,6 +168,7 @@ const CourseCards = (props) => {
                                             <Button variant="primary" onClick={() => handleEdit(index)}>
                                                 Edit
                                             </Button>
+                                            {' '}
                                             <Button variant="primary" onClick={() => handleDelete(index)}>
                                                 Delete
                                             </Button>

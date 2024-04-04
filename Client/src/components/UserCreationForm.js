@@ -54,8 +54,6 @@ export const UserCreationForm = () => {
        <br />
        Email : <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
        <br />
-       Password : <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-       <br />
        Age : <input type="text" value={age} onChange={(e) => setAge(e.target.value)} />
        <br />
        Role : <input type="text" value={role} onChange={(e) => setRole(e.target.value)} />
