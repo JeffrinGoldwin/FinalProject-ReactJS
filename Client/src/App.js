@@ -10,6 +10,7 @@ import { Courses } from "./components/Courses";
 import { Events } from "./components/Events";
 import { NotFound } from "./components/NotFound";
 import Video from "./components/Video";
+import { ForgotPassword } from "./components/ForgotPassword";
 
 function App() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ function App() {
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Events" element={<Events />} />
         <Route path="/Courses/video" element={<Video />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>

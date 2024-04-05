@@ -41,23 +41,40 @@ const currentUser = async (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-    try {
-        const { newPassword } = req.body;
-        console.log(req.body);
-        console.log(currentUser);
-        const updatedUser = await UserModel.findOneAndUpdate(
-          { Email: currentUser.Email },
-          { Password: newPassword, PasswordChanged: "True" }
-        );
-        console.log("New Password", newPassword);
-        if (!updatedUser) {
-          return res.status(404).json({ error: "User not found" });
-        }
-        res.status(200).json({ message: "Password updated successfully" });
-      } catch (error) {
-        console.error("Error changing password:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+  try {
+      const { newPassword } = req.body;
+      console.log(req.body);
+      console.log(currentUser);
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { Email: currentUser.Email },
+        { Password: newPassword, PasswordChanged: "True" }
+      );
+      console.log("New Password", newPassword);
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found" });
       }
+      res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.error("Error changing password:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+const sendOTP = async (req, res) => {
+  try{
+    const {email} = req.body;
+    const user = await UserModel.findOne({ email });
+    if(user) {
+      
+    }
+    else {
+      res.status(404).json({ error: 'User not found' });
+    }
+
+  }
+  catch{
+
+  }
 }
 
 module.exports = {login, currentUser, changePassword}
