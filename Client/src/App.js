@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ChangePassword } from "./components/ChangePassword";
 import { Courses } from "./components/Courses";
 import { Events } from "./components/Events";
+import { NotFound } from "./components/NotFound";
 import Video from "./components/Video";
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path="/Courses" element={<Courses />} />
         <Route path="/Events" element={<Events />} />
         <Route path="/Courses/video" element={<Video />} />
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>
   );
