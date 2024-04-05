@@ -130,7 +130,7 @@ export const EventDetailsModel = ({
       console.log("up data", updatedEvent);
 
       HandleConfirmation();
-      if(selectedEvent.Capacity - selectedEvent.Accepted == 5 ){
+      if(selectedEvent.Capacity - selectedEvent.Accepted <= 5 ){
         HandleEventAlmostFill();
       }
 

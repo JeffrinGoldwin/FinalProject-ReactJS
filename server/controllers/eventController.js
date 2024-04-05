@@ -1,6 +1,7 @@
 const EventModel = require('../models/events');
 const AcceptRejectModel = require('../models/AcceptRejectModel');
 const UserModel = require('../models/user');
+const SkillModel = require('../models/skills')
 const {sendEmail} = require('../utils/SendMail');
 const transporter = require('../utils/Transporter');
 
@@ -167,17 +168,20 @@ const sendIntrestedMail = async (req, res) => {
 }
 
 const eventAlmostFull = async (req, res) => {
-  const users = await UserModel.find({}, "Email");
-  for (const user of users) {
-    const email = user.Email;
-    const emailText = `Hello ,\n\Event is almost full. Visit website to register\nWebsite Link : http://localhost:3000/Events`;
-    try {
-      await sendEmail(email, "New Event", emailText, transporter);
-      console.log(`Email sent successfully to ${email}`);
-      res.status(200).send("Done")
-    } catch (error) {
-      console.error(`Error sending email to ${email}:`, error);
-    }
+  try {
+      const events = await EventModel.find()
+      const emails = []
+      for(const event of events) {
+        const skill = await SkillModel.findOne({ Skill: event.EventTitle.toLowerCase().trim() });
+        if (skill) {
+          emails.push(skill.Email);
+        }
+      }
+      res.status(200).json({ emails });
+  }
+  catch (error) {
+    console.error("Error comparing EventTitle and Skill:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
