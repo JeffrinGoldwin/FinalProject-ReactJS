@@ -8,6 +8,7 @@ export const AddCourseModel = (props) => {
 
     const [videoUrl, setVideoUrl] = useState('');
     const [courseTitle, setCourseTitle] = useState('');
+    const [courseDifficulty, setCourseDifficulty] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
     const token = sessionStorage.getItem('token');
 
@@ -19,6 +20,7 @@ export const AddCourseModel = (props) => {
       const response = await axios.post("http://localhost:3001/addCourse" , {
         videoUrl : videoUrl,
         courseTitle : courseTitle,
+        courseDifficulty : courseDifficulty,
         courseDescription : courseDescription
       },{
         headers: {
@@ -30,6 +32,7 @@ export const AddCourseModel = (props) => {
         setVideoUrl('');
         setCourseTitle('');
         setCourseDescription('');
+        setCourseDifficulty('');
         handleClose();
     } catch (error) {
         console.error("Error adding course:", error);
@@ -49,6 +52,14 @@ export const AddCourseModel = (props) => {
         </Modal.Header>
         <Modal.Body>
           Course Title : <input type="text" value={courseTitle} onChange={(e) => setCourseTitle(e.target.value)}/>
+          <br />
+          <br />
+          Course Difficulty : <select type="text" value={courseDifficulty} onChange={(e) => setCourseDifficulty(e.target.value)}>
+            <option selected hidden> -- select option --</option>
+            <option value = "Easy">Easy</option>
+            <option value="Intermediate">Intermediate</ option>
+            <option value="Hard">Hard</option>
+          </select>
           <br />
           <br />
           Course Link : <input type="text" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)}/>

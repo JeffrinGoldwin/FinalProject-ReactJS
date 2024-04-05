@@ -16,12 +16,13 @@ const courses = async (req, res) => {
 const addCourse = async (req, res) => {
   try {
     // Extract data from the request body
-    const { videoUrl, courseTitle, courseDescription } = req.body;
+    const { videoUrl, courseTitle, courseDifficulty, courseDescription } = req.body;
 
     // Create a new course document
     const newCourse = new CourseModel({
       VideoURL: videoUrl,
       VideoTitle: courseTitle,
+      VideoDifficulty: courseDifficulty,
       VideoDescription: courseDescription,
     });
 

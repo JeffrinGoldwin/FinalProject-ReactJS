@@ -1,7 +1,8 @@
-const EventModel = require('../models/events')
-const AcceptRejectModel = require('../models/AcceptRejectModel')
-const sendEmail = require('../utils/SendMail')
-const transporter = require('../utils/Transporter')
+const EventModel = require('../models/events');
+const AcceptRejectModel = require('../models/AcceptRejectModel');
+const UserModel = require('../models/user');
+const {sendEmail} = require('../utils/SendMail');
+const transporter = require('../utils/Transporter');
 
 const events = async (req, res) => {
   try {
@@ -21,6 +22,8 @@ const addEvent = async (req, res) => {
       EndTime,
       EventStartDate,
       EventEndDate,
+      TrainerName,
+      TrainerEmail,
       Venue,
       Capacity,
       Description,
@@ -35,6 +38,8 @@ const addEvent = async (req, res) => {
       EndTime: EndTime,
       EventStartDate: EventStartDate,
       EventEndDate: EventEndDate,
+      TrainerName: TrainerName,
+      TrainerEmail: TrainerEmail,
       Venue: Venue,
       Capacity: Capacity,
       Description: Description,
@@ -43,24 +48,34 @@ const addEvent = async (req, res) => {
       Maybe: Maybe,
     });
 
+    console.log(newEvent)
+
     // Save the new event to the database
     const savedEvent = await newEvent.save();
 
     //Email
     const users = await UserModel.find({}, "Email");
     for (const user of users) {
-      const email = user.Email;
-      const emailText = `Hello ,\n\nNew Event has been Added\n\nWebsite Link : http://localhost:3000/Events`;
+      if(user.Role === "User"){
 
-      try {
-        // Send email to the current user
-        await sendEmail(email, "New Event", emailText, transporter);
-        console.log(`Email sent successfully to ${email}`);
-      } catch (error) {
-        console.error(`Error sending email to ${email}:`, error);
+        const email = user.Email;
+        const emailText = `Hello ,\n\nNew Event has been Added\n\nWebsite Link : http://localhost:3000/Events`;
+        
+        try {
+          // Send email to the current user
+          await sendEmail(email, "New Event", emailText, transporter);
+          console.log(`Email sent successfully to ${email}`);
+        } catch (error) {
+          console.error(`Error sending email to ${email}:`, error);
+        }
       }
     }
-
+    
+    
+    const email = savedEvent.TrainerEmail;
+    const emailText = `Hello ${savedEvent.TrainerName} ,\n\nYou have been assigned as a trainer for a event\n\nWebsite Link : http://localhost:3000/Events`;
+    await sendEmail(email, "Event Trainer", emailText, transporter);
+    
     // Send success response
     res.status(201).json(savedEvent);
   } catch (error) {

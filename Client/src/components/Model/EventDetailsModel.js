@@ -31,7 +31,7 @@ export const EventDetailsModel = ({
         setCurrentUser(response.data);
       } catch (error) {
         console.error("Error fetching current user:", error);
-        setCurrentUser(null); // Reset currentUser if there's an error
+        setCurrentUser(null);
       }
     };
 
@@ -321,6 +321,12 @@ export const EventDetailsModel = ({
           </p>
           <p>
             <strong>End Date:</strong> {selectedEvent.EventEndDate}
+          </p>
+          <p>
+            <strong>Trainer Name:</strong> {selectedEvent.TrainerName}
+          </p>
+          <p>
+            <strong>Trainer Email:</strong> {selectedEvent.TrainerEmail}
           </p>
           <p>
             <strong>Venue:</strong> {selectedEvent.Venue}

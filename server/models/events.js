@@ -7,6 +7,8 @@ const eventSchema = new Schema({
   EndTime: String,
   EventStartDate: String,
   EventEndDate: String,
+  TrainerName : String,
+  TrainerEmail : String,
   Venue: String,
   Capacity: Number,
   Description: String,

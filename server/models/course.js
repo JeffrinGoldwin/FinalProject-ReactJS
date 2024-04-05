@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema({
   VideoURL: String,
   VideoTitle: String,
+  VideoDifficulty:String,
   VideoDescription: String
 });
 
