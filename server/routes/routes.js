@@ -35,5 +35,6 @@ router.post('/addAcceptReject', verifyToken, acceptrejectController.addAcceptRej
 
 router.get('/getSkills', verifyToken, skillController.getSkills)
 router.post('/addSkills', verifyToken, skillController.addSkill)
+router.delete('/deleteSkill/:id' ,verifyToken, skillController.deleteSkills)
 
 module.exports = router;

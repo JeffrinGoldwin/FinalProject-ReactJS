@@ -28,4 +28,21 @@ const getSkills = async (req, res) => {
     }
 }
 
-module.exports = {addSkill, getSkills}
+const deleteSkills = async (req, res) => {
+    const skillId = req.params.id;
+  try {
+    // Find the skill by ID and delete it
+    const deletedSkill = await SkillModel.findByIdAndDelete(skillId);
+    
+    if (!deletedSkill) {
+      return res.status(404).json({ message: "Skill not found" });
+    }
+
+    res.status(200).json({ message: "Skill deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting skill:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+module.exports = {addSkill, getSkills, deleteSkills}
