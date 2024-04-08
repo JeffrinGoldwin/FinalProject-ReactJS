@@ -1,51 +1,20 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 export const ChangePassword = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [emailID, setEmailID] = useState('')
     const [newPassword, setNewPassword] = useState('12345')
-    const [currentUser, setCurrentUser] = useState([]);
     const token = sessionStorage.getItem('token')
-
-    useEffect(() => {
-        const fetchCurrentUser = async () => {
-            try {
-              const response = await axios.get('http://localhost:3001/currentUser', {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                }
-              }); // Assuming this endpoint returns the current user data
-              // console.log(response.data);
-              setCurrentUser(response.data);
-            } catch (error) {
-              console.error('Error fetching current user:', error);
-              setCurrentUser(null); // Reset currentUser if there's an error
-            }
-          };
-      
-          fetchCurrentUser();
-      }, []);
-
-      useEffect(() => {
-        console.log("User", currentUser); // Log the currentUser whenever it changes
-      }, [currentUser]);
-
 
   const handleChangePassword = () => {
     // Here you can add your logic to send the new password to the server and update the user's password
     axios.post(
       'http://localhost:3001/changePassword', 
-      { newPassword: newPassword }, // Request body
-      {
-        headers: {
-          'Content-Type': 'application/json', // Request headers
-          'Authorization': `Bearer ${token}`
-        }
-      }
+      { newPassword: newPassword , email: emailID}
     )
     .then(response => {
       console.log('Password changed successfully');
@@ -55,6 +24,13 @@ export const ChangePassword = () => {
       console.error('Error changing password:', error);
     });
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const email = searchParams.get('email');
+
+    setEmailID(email);
+    }, [location.search]);
 
   return (
     <div>

@@ -35,7 +35,7 @@ export const LandingPage = () => {
   useEffect(() => {
     console.log("User", currentUser);
     if (currentUser.PasswordChanged === "False") {
-      navigate("/ChangePassword");
+      navigate(`/ChangePassword?email=${currentUser.Email}`);
     }
   }, []);
 

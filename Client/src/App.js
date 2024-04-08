@@ -11,6 +11,7 @@ import { Events } from "./components/Events";
 import { NotFound } from "./components/NotFound";
 import Video from "./components/Video";
 import { ForgotPassword } from "./components/ForgotPassword";
+import { Confirmation } from "./components/Confirmation";
 
 function App() {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ function App() {
         <Route path="/Events" element={<Events />} />
         <Route path="/Courses/video" element={<Video />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path='/Confirmation' element={<Confirmation />} />
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>

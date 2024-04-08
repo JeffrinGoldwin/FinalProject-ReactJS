@@ -1,5 +1,7 @@
 const UserModel = require("../models/user");
 const jwt = require('jsonwebtoken');
+const transporter = require('../utils/Transporter')
+const { sendEmail } = require('../utils/SendMail')
 
 let LoggedUser = null;
 
@@ -42,11 +44,10 @@ const currentUser = async (req, res) => {
 
 const changePassword = async (req, res) => {
   try {
-      const { newPassword } = req.body;
+      const { newPassword, email } = req.body;
       console.log(req.body);
-      console.log(currentUser);
       const updatedUser = await UserModel.findOneAndUpdate(
-        { Email: currentUser.Email },
+        { Email: email },
         { Password: newPassword, PasswordChanged: "True" }
       );
       console.log("New Password", newPassword);
@@ -60,21 +61,16 @@ const changePassword = async (req, res) => {
     }
 }
 
-const sendOTP = async (req, res) => {
+const forgotPassword = async (req, res) => {
   try{
-    const {email} = req.body;
-    const user = await UserModel.findOne({ email });
-    if(user) {
-      
-    }
-    else {
-      res.status(404).json({ error: 'User not found' });
-    }
-
+    const { email } =  req.body;
+    const emailText = `Hello/n/nYou have requested for a change password request. Ckick the link below to change password/n/nLink : http://localhost:3000/ChangePassword?email=${email}`;
+    res.status(200).json({message: "Email sent"})
+    await sendEmail(email, "Forgot Password", emailText, transporter);
   }
   catch{
-
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-module.exports = {login, currentUser, changePassword}
+module.exports = {login, currentUser, changePassword, forgotPassword}

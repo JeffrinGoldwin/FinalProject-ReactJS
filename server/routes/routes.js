@@ -10,6 +10,7 @@ const verifyToken = require("../utils/verifyJWT");
 
 router.get('/currentUser', verifyToken, authController.currentUser)
 router.post('/login', authController.login)
+router.post('/forgotPassword', authController.forgotPassword)
 router.post('/changePassword', verifyToken, authController.changePassword)
 
 router.get('/getUsers', verifyToken, userController.getUser)

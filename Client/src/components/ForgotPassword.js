@@ -1,34 +1,27 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export const ForgotPassword = () => {
+  const [loginEmail, setloginEmail] = useState('');
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
 
-  const handleOTP = async () => {
+
+  const handleSendEmail = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/sendOTP', { email });
-        navigate('/OTPVerification');
+      await axios.post('http://localhost:3001/forgotPassword', { email: loginEmail });
+      navigate(`/Confirmation?email=${loginEmail}`);
     } catch (error) {
       console.error('Error sending email:', error);
-      alert('Failed to send OTP. Mail ID doesnt exist in the database.');
     }
   };
 
   return (
     <div>
-      <label htmlFor="email">Email:</label>
-      <input
-        type="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-      />
+      Email : <input type="text" value={loginEmail} onChange={(e) => setloginEmail(e.target.value)} />
       <br />
-      <br />    
-      <button onClick={handleOTP}>Send OTP</button>
+      <br />
+      <button type="button" onClick={handleSendEmail}>Send Email</button>
     </div>
   );
 };
