@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { UserCreationForm } from "./UserCreationForm";
 import { useNavigate } from "react-router-dom";
-import NavBar from "./NavBar"
+import NavBar from "./NavBar";
 import { UserSkillForm } from "./UserSkillForm";
 
 export const LandingPage = () => {
@@ -35,11 +35,11 @@ export const LandingPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="dark:bg-gray-800 dark:text-white min-h-screen">
       <NavBar />
-      <div>
+      <div className="container mx-auto py-8">
         <div>{currentUser.Role === "Admin" && <UserCreationForm />}</div>
-        <div>{currentUser.Role !== "Admin" && <UserSkillForm currentUser = {currentUser}/>}</div>
+        <div>{currentUser.Role !== "Admin" && <UserSkillForm currentUser={currentUser} />}</div>
       </div>
     </div>
   );

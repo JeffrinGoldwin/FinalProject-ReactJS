@@ -56,7 +56,7 @@ export const Events = () => {
     const handleShow = () => setShow(true);
 
   return (
-    <div>
+    <div className='min-h-screen dark:bg-gray-800'>
         <NavBar />  
         <EventCards 
         events = {events}/>

@@ -35,13 +35,13 @@ export const UserCreationForm = () => {
 
   return (
     <div>
-      <div className="border-b border-gray-900/10 pb-12 mx-20 my-20">
-        <h2 className="text-base font-semibold leading-7 text-gray-900">Creating a User</h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600">Make sure to use correct Email ID so that the user can receive the mail</p>
+      <div className="border-b border-gray-900/10 dark:border-gray-300 pb-12 mx-20 my-20">
+        <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">Creating a User</h2>
+        <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">Make sure to use correct Email ID so that the user can receive the mail</p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
-            <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
               First name
             </label>
             <div className="mt-2">
@@ -52,13 +52,14 @@ export const UserCreationForm = () => {
               name="first-name"
               id="first-name"
               autoComplete="given-name"
-              className="block w-full rounded-md border border-gray-300 focus:border-indigo-600 py-1.5 px-3 text-gray-900 shadow-sm placeholder-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-4 focus:outline-none focus:border-indigo-700 py-1.5 px-3 text-gray-900 shadow-sm placeholder-gray-900 sm:text-sm sm:leading-6"
+
             />
             </div>
           </div>
 
           <div className="sm:col-span-3">
-            <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
               Last name
             </label>
             <div className="mt-2">
@@ -69,13 +70,13 @@ export const UserCreationForm = () => {
                 name="last-name"
                 id="last-name"
                 autoComplete="family-name"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-4 focus:outline-none focus:border-indigo-700 py-1.5 px-3 text-gray-900 shadow-sm placeholder-gray-900 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div className="sm:col-span-4">
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
               Email address
             </label>
             <div className="mt-2">
@@ -86,13 +87,13 @@ export const UserCreationForm = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-4 focus:outline-none focus:border-indigo-700 py-1.5 px-3 text-gray-900 shadow-sm placeholder-gray-900 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div className="sm:col-span-3">
-            <label htmlFor="age" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="age" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
               Age
             </label>
             <div className="mt-2">
@@ -103,13 +104,13 @@ export const UserCreationForm = () => {
                 name="age"
                 id="age"
                 autoComplete="age"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-4 focus:outline-none focus:border-indigo-700 py-1.5 px-3 text-gray-900 shadow-sm placeholder-gray-900 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div className="sm:col-span-3">
-            <label htmlFor="role" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="role" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
               Role
             </label>
             <div className="mt-2">
@@ -118,8 +119,7 @@ export const UserCreationForm = () => {
                 onChange={(e) => setRole(e.target.value)}
                 name="role"
                 id="role"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              >
+                className="block w-full rounded-md border-4 focus:outline-none focus:border-indigo-700 py-1.5 px-3 text-gray-900 shadow-sm placeholder-gray-900 sm:text-sm sm:leading-6">
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
               </select>

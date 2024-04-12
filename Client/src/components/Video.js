@@ -46,7 +46,7 @@ const [videoId, setvideoId] = useState(null)
       };
 
   return (
-    <>
+    <div className='min-h-screen dark:bg-gray-900'>
     <NavBar />
     <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }} >
     <iframe
@@ -58,7 +58,7 @@ const [videoId, setvideoId] = useState(null)
     ></iframe>
   </div>
   
-  </>
+  </div>
   );
 };
 

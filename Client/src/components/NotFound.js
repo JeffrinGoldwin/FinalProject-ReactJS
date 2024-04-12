@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 export const NotFound = () => {
   return (
-    <h1 className='text-3xl font-bold text-center'>Page Not Found</h1>
-  )
-}
+    <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+      <h1 className="text-4xl font-bold text-center text-gray-900 dark:text-white">Page Not Found</h1>
+    </div>
+  );
+};

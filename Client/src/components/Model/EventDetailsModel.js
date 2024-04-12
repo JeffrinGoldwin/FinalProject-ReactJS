@@ -297,121 +297,120 @@ export const EventDetailsModel = ({
 
   return (
     <div>
-      <Modal
-        show={eventDetailsModelshow}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Event</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>
-            <strong>Event Name:</strong> {selectedEvent.EventName}
-          </p>
-          <p>
-            <strong>Start Time:</strong> {selectedEvent.StartTime}
-          </p>
-          <p>
-            <strong>End Time:</strong> {selectedEvent.EndTime}
-          </p>
-          <p>
-            <strong>Start Date:</strong> {selectedEvent.EventStartDate}
-          </p>
-          <p>
-            <strong>End Date:</strong> {selectedEvent.EventEndDate}
-          </p>
-          <p>
-            <strong>Trainer Name:</strong> {selectedEvent.TrainerName}
-          </p>
-          <p>
-            <strong>Trainer Email:</strong> {selectedEvent.TrainerEmail}
-          </p>
-          <p>
-            <strong>Venue:</strong> {selectedEvent.Venue}
-          </p>
-          <p>
-            <strong>Participents: </strong> {selectedEvent.Accepted}/{selectedEvent.Capacity}
-          </p>
-          <p>
-            <strong>Description:</strong> {selectedEvent.Description}
-          </p>
-          {currentUser.Role === "Admin" && (
+  <Modal
+    show={eventDetailsModelshow}
+    onHide={handleClose}
+    backdrop="static"
+    keyboard={false}
+  >
+    <Modal.Header closeButton className="bg-gray-900 text-white">
+      <Modal.Title>Event</Modal.Title>
+    </Modal.Header>
+    <Modal.Body className="bg-gray-100">
+      <p>
+        <strong>Event Name:</strong> {selectedEvent.EventName}
+      </p>
+      <p>
+        <strong>Start Time:</strong> {selectedEvent.StartTime}
+      </p>
+      <p>
+        <strong>End Time:</strong> {selectedEvent.EndTime}
+      </p>
+      <p>
+        <strong>Start Date:</strong> {selectedEvent.EventStartDate}
+      </p>
+      <p>
+        <strong>End Date:</strong> {selectedEvent.EventEndDate}
+      </p>
+      <p>
+        <strong>Trainer Name:</strong> {selectedEvent.TrainerName}
+      </p>
+      <p>
+        <strong>Trainer Email:</strong> {selectedEvent.TrainerEmail}
+      </p>
+      <p>
+        <strong>Venue:</strong> {selectedEvent.Venue}
+      </p>
+      <p>
+        <strong>Participents: </strong> {selectedEvent.Accepted}/{selectedEvent.Capacity}
+      </p>
+      <p>
+        <strong>Description:</strong> {selectedEvent.Description}
+      </p>
+      {currentUser.Role === "Admin" && (
+      <>
+      <p>
+        <strong>Accepted:</strong> {selectedEvent.Accepted}
+      </p>
+      <p>
+        <strong>Rejected:</strong> {selectedEvent.Rejected}
+      </p>
+      <p>
+        <strong>Maybe:</strong> {selectedEvent.Maybe}
+      </p>
+      </>
+      )}
+    </Modal.Body>
+    <Modal.Footer className="bg-gray-900">
+      {currentUser.Role === "User" ? (
+      <div>
+        {(currentUser.Email === email && eventTitle === selectedEvent.EventName) ? (
           <>
-          <p>
-            <strong>Accepted:</strong> {selectedEvent.Accepted}
-          </p>
-          <p>
-            <strong>Rejected:</strong> {selectedEvent.Rejected}
-          </p>
-          <p>
-            <strong>Maybe:</strong> {selectedEvent.Maybe}
-          </p>
+          {selectedEvent.Capacity-selectedEvent.Accepted == 0 ? (
+              <u>
+                <span style={{ color: "blue" }} onClick={handleSpanClick}>
+                  {clicked ? 'Notified!' : 'Click Here if you are interested'}
+                </span>
+              </u>
+            ) : null}
+          {' '}
+          <Button variant="secondary" disabled>Answered</Button>
           </>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-        {currentUser.Role === "User" ? (
-        <div>
-            {(currentUser.Email === email && eventTitle === selectedEvent.EventName) ? (
-              <>
-              {selectedEvent.Capacity-selectedEvent.Accepted == 0 ? (
-                  <u>
-                    <span style={{ color: "blue" }} onClick={handleSpanClick}>
-                      {clicked ? 'Notified!' : 'Click Here if you are interested'}
-                    </span>
-                  </u>
-                ) : null}
-              {' '}
-              <Button variant="secondary" disabled>Answered</Button>
-              </>
-            ) : (
-            <Dropdown as={ButtonGroup}>
-                <Button variant="primary" onClick={handleAccept}>
-                Accept
-                </Button>
-                <Dropdown.Toggle
-                split
-                variant="primary"
-                id="dropdown-split-basic"
-                />
-                <Dropdown.Menu>
-                <Dropdown.Item onClick={handleReject}>Reject</Dropdown.Item>
-                <Dropdown.Item onClick={handleMaybe}>Maybe</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-            )}
-        </div>
         ) : (
-        <div>
-          <div className="flex">
-            <button
-              onClick={handleDelete}
-              type="button"
-              className="flex rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-            Delete
-            </button>
-            <button
-              onClick={handleModelShow}
-              type="button"
-              className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Edit
-            </button>
-            </div>
-            
-            
-        </div>
+        <Dropdown as={ButtonGroup}>
+          <Button variant="primary" onClick={handleAccept}>
+            Accept
+          </Button>
+          <Dropdown.Toggle
+            split
+            variant="primary"
+            id="dropdown-split-basic"
+          />
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleReject}>Reject</Dropdown.Item>
+            <Dropdown.Item onClick={handleMaybe}>Maybe</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         )}
-        </Modal.Footer>
-      </Modal>
-        <EditEventModel 
-          editModelShow = {editModelShow}
-          setEditModelShow = {setEditModelShow}
-          event = {event}
-        />
-    </div>
+      </div>
+      ) : (
+      <div>
+        <div className="flex">
+          <button
+            onClick={handleDelete}
+            type="button"
+            className="flex rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Delete
+          </button>
+          <button
+            onClick={handleModelShow}
+            type="button"
+            className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+      )}
+    </Modal.Footer>
+  </Modal>
+  <EditEventModel 
+    editModelShow={editModelShow}
+    setEditModelShow={setEditModelShow}
+    event={event}
+  />
+</div>
+
   );
 };
