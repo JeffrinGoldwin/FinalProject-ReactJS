@@ -6,31 +6,19 @@ import { Link } from 'react-router-dom';
 
 function NavBar() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+    <Navbar collapseOnSelect expand="lg" className="bg-indigo-600">
       <Container>
-        <Navbar.Brand as={Link} to="/LandingPage">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/LandingPage" className=' text-white'>E-Learning</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            {/* <Nav.Link >Courses</Nav.Link> */}
-            <Nav.Link as={Link} to="/Courses">Courses</Nav.Link>
-            <Nav.Link as={Link} to="/Events">Events</Nav.Link>
-            {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown> */}
+            <Nav.Link as={Link} to="/Courses" className=' text-white'>Courses</Nav.Link>
+            <Nav.Link as={Link} to="/Events" className=' text-white'>Events</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/login">Log Out</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              Dank memes
+            <Nav.Link as={Link} to="/login" className=' text-white'>Log Out</Nav.Link>
+            <Nav.Link eventKey={2} href="#memes" className=' text-white'>
+              Change Theme
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

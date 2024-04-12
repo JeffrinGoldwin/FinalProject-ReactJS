@@ -21,8 +21,10 @@ export const LandingPage = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-        console.log("data", response)
         setCurrentUser(response.data);
+        if (response.data.PasswordChanged === "False") {
+          navigate(`/ChangePassword?email=${response.data.Email}`);
+        }
       } catch (error) {
         console.error("Error fetching current user:", error);
         setCurrentUser(null); // Reset currentUser if there's an error
@@ -32,20 +34,12 @@ export const LandingPage = () => {
     fetchCurrentUser();
   }, []);
 
-  useEffect(() => {
-    console.log("User", currentUser);
-    if (currentUser.PasswordChanged === "False") {
-      navigate(`/ChangePassword?email=${currentUser.Email}`);
-    }
-  }, []);
-
   return (
     <div>
       <NavBar />
       <div>
-        <p>Welcome {currentUser.FirstName} !</p>
-        {currentUser.Role === "Admin" && <UserCreationForm />}
-        {currentUser.Role !== "Admin" && <UserSkillForm currentUser = {currentUser}/>}
+        <div>{currentUser.Role === "Admin" && <UserCreationForm />}</div>
+        <div>{currentUser.Role !== "Admin" && <UserSkillForm currentUser = {currentUser}/>}</div>
       </div>
     </div>
   );

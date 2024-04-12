@@ -15,7 +15,7 @@ import { Confirmation } from "./components/Confirmation";
 
 function App() {
   const navigate = useNavigate();
-  const [loginEmail, setloginEmail] = useState("jeffrin.2005031@srec.ac.in");
+  const [loginEmail, setloginEmail] = useState("msg3dv@gmail.com");
   const [loginPassword, setloginPassword] = useState("12345");
 
   const handleLogin = async (e) => {

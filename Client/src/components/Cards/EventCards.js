@@ -6,7 +6,7 @@ import { EventDetailsModel } from '../Model/EventDetailsModel';
 export const EventCards = (props) => {
   return (
     <div>
-      <Container>
+      <Container className='my-4'>
         <Row xs={1} md={2} lg={3} className="g-4">
           {props.events.map((event, index) => (
             <Col key={index}>
@@ -32,9 +32,13 @@ const EventCard = ({ event }) => {
           <Card.Title>{event.EventName}</Card.Title>
           <Card.Subtitle>{event.Time}</Card.Subtitle>
           <br />
-          <Button onClick={handleEventDetailsModel} variant="primary">
-            View Details
-          </Button>
+          <button
+              onClick={handleEventDetailsModel}
+              type="button"
+              className="flex rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+          View Details
+          </button>
           <EventDetailsModel
             eventDetailsModelshow={eventDetailsModelshow}
             handleClose={handleClose}

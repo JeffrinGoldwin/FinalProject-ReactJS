@@ -385,9 +385,24 @@ export const EventDetailsModel = ({
         </div>
         ) : (
         <div>
-            <Button variant="primary" onClick={handleDelete}>Delete</Button>
-            {' '}
-            <Button variant="primary" onClick={handleModelShow}>Edit</Button>
+          <div className="flex">
+            <button
+              onClick={handleDelete}
+              type="button"
+              className="flex rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+            Delete
+            </button>
+            <button
+              onClick={handleModelShow}
+              type="button"
+              className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Edit
+            </button>
+            </div>
+            
+            
         </div>
         )}
         </Modal.Footer>

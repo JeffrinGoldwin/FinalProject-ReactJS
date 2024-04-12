@@ -33,7 +33,6 @@ export const UserSkillForm = ({ currentUser }) => {
         setSkills([...skills, { _id: response.data._id, Skill: skill, Experience: experience }]);
         setSkill('');
         setExperience('');
-        console.log("Skill data sent to another API:", response.data);
       } catch (error) {
         console.error("Error adding skill:", error);
       }
@@ -59,7 +58,8 @@ export const UserSkillForm = ({ currentUser }) => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/getSkills", {
+        const response = await axios.post("http://localhost:3001/getSkills", {Email: currentUser.Email},
+        {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -72,37 +72,43 @@ export const UserSkillForm = ({ currentUser }) => {
     };
 
     fetchSkills();
-  }, []);
+  }, [handleAddSkill]);
 
   return (
-    <div>
-      <label htmlFor="skill">Skill:</label>
+    <div className="border-b border-gray-900/10 pb-12 mx-20 my-10">
+      <label htmlFor="skill" className="block text-sm font-medium leading-6 text-gray-900">Skill:</label>
       <input
         type="text"
         id="skill"
         value={skill}
         onChange={handleSkillChange}
         placeholder="Enter skill"
+        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
 
-      <label htmlFor="experience">Experience:</label>
+      <label htmlFor="experience" className="block mt-4 text-sm font-medium leading-6 text-gray-900">Experience:</label>
       <input
         type="text"
         id="experience"
         value={experience}
         onChange={handleExperienceChange}
         placeholder="Enter experience"
+        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
 
-      <button onClick={handleAddSkill}>Add Skill</button>
+      <button onClick={handleAddSkill} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Add Skill
+      </button>
 
-      <div>
-        <h2>Skills List</h2>
-        <ul>
-          {skills.map((item, index) => (
-            <li key={index}>
+      <div className="mt-8">
+        <h2 className="text-base font-semibold leading-7 text-gray-900">Skills List</h2>
+        <ul className="mt-2">
+          {skills.map((item) => (
+            <li key={item._id} className="mt-2">
               Skill: {item.Skill}, Experience: {item.Experience}
-              <button onClick={() => handleDeleteSkill(item._id)}>Delete</button>
+              <button onClick={() => handleDeleteSkill(item._id)} className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                Delete
+              </button>
             </li>
           ))}
         </ul>

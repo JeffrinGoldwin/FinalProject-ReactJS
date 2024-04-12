@@ -203,9 +203,9 @@ export const AddEventModel = (props) => {
           <br />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleAddEvent} variant="primary">
+          <button onClick={handleAddEvent} className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Add
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </div>

@@ -11,7 +11,7 @@ const verifyToken = require("../utils/verifyJWT");
 router.get('/currentUser', verifyToken, authController.currentUser)
 router.post('/login', authController.login)
 router.post('/forgotPassword', authController.forgotPassword)
-router.post('/changePassword', verifyToken, authController.changePassword)
+router.post('/changePassword', authController.changePassword)
 
 router.get('/getUsers', verifyToken, userController.getUser)
 router.post('/createUser', verifyToken, userController.createUser);
@@ -34,7 +34,7 @@ router.delete('/deleteEvent/:eventId', verifyToken, eventController.deleteEvent)
 router.get('/checkAcceptReject', verifyToken, acceptrejectController.checkAcceptReject)
 router.post('/addAcceptReject', verifyToken, acceptrejectController.addAcceptReject)
 
-router.get('/getSkills', verifyToken, skillController.getSkills)
+router.post('/getSkills', verifyToken, skillController.getSkills)
 router.post('/addSkills', verifyToken, skillController.addSkill)
 router.delete('/deleteSkill/:id' ,verifyToken, skillController.deleteSkills)
 

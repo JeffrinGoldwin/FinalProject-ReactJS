@@ -67,6 +67,7 @@ const forgotPassword = async (req, res) => {
     const emailText = `Hello/n/nYou have requested for a change password request. Ckick the link below to change password/n/nLink : http://localhost:3000/ChangePassword?email=${email}`;
     res.status(200).json({message: "Email sent"})
     await sendEmail(email, "Forgot Password", emailText, transporter);
+    console.log("Sent Email")
   }
   catch{
     res.status(500).json({ error: "Internal Server Error" });

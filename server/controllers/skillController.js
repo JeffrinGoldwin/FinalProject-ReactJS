@@ -20,7 +20,8 @@ const addSkill = async (req, res) => {
 
 const getSkills = async (req, res) => {
     try {
-        const skills = await SkillModel.find();
+        const {Email} = req.body
+        const skills = await SkillModel.find({ Email: Email });
         res.status(200).json(skills);
     } catch (error) {
         console.error("Error fetching skills:", error);

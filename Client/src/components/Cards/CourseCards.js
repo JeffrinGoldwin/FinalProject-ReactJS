@@ -118,7 +118,7 @@ const CourseCards = (props) => {
 
 
     return (
-        <Container>
+        <Container style={{marginTop: "20px"}}>
             <Row xs={1} md={2} lg={3} className="g-4">
                 {props.videoData.map((video, index) => (
                     <Col key={index}>
@@ -131,11 +131,13 @@ const CourseCards = (props) => {
                             <Card.Body style={{
                                     height: '210px', // Set the desired height for the cards
                                     overflow: 'scroll', // Hide any overflow content
+                                    overflowY: 'hidden',
+                                    overflowX: 'hidden'
                                 }}>
                                 {editMode[index] ? (
                                     <Form>
                                         <Form.Group controlId="videoTitle">
-                                            <Form.Label>Title</Form.Label>
+                                            {/* <Form.Label>Title</Form.Label> */}
                                             <Form.Control type="text" value={editedVideos[index].VideoTitle} onChange={(e) => setEditedVideos(prevState => {
                                                 const updatedVideos = [...prevState];
                                                 updatedVideos[index] = { ...editedVideos[index], VideoTitle: e.target.value };
@@ -143,15 +145,17 @@ const CourseCards = (props) => {
                                             })} />
                                         </Form.Group>
                                         <Form.Group controlId="videoDescription">
-                                            <Form.Label>Description</Form.Label>
+                                            {/* <Form.Label>Description</Form.Label> */}
                                             <Form.Control as="textarea" rows={3} value={editedVideos[index].VideoDescription} onChange={(e) => setEditedVideos(prevState => {
                                                 const updatedVideos = [...prevState];
                                                 updatedVideos[index] = { ...editedVideos[index], VideoDescription: e.target.value };
                                                 return updatedVideos;
                                             })} />
                                         </Form.Group>
-                                        <Button variant="primary" onClick={() => handleSave(index)}>Save</Button>
-                                        <Button variant="secondary" onClick={() => handleCancel(index)}>Cancel</Button>
+                                        <div className='flex'>
+                                            <button className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={() => handleSave(index)}>Save</button>
+                                            <button className="flex rounded-md mx-1 bg-gray-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={() => handleCancel(index)}>Cancel</button>
+                                        </div>
                                     </Form>
                                 ) : (
                                     <>
@@ -162,21 +166,28 @@ const CourseCards = (props) => {
                                         <Card.Text style={{
                                             height: '70px', // Set the desired height for the cards
                                             overflow: 'scroll', // Hide any overflow content
+                                            overflowY: 'hidden',
+                                            overflowX: 'hidden'
                                         }}>{video.VideoDescription}</Card.Text>
                                         {props.Role === "Admin" ? (
                                         <>
-                                            <Button variant="primary" onClick={() => handleEdit(index)}>
+                                        <div className='flex'>
+                                            <button className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={() => handleEdit(index)}>
                                                 Edit
-                                            </Button>
-                                            {' '}
-                                            <Button variant="primary" onClick={() => handleDelete(index)}>
+                                            </button>
+                                            <button className="flex rounded-md mx-1 bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={() => handleDelete(index)}>
                                                 Delete
-                                            </Button>
+                                            </button>
+                                        </div>
                                         </>
                                         ) : (
-                                            <Button variant="primary" onClick={() => handleGoTo(index)}>
+                                            <button
+                                                onClick={() => handleGoTo(index)}
+                                                type="button"
+                                                className="flex rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            >
                                                 Go to Courses
-                                            </Button>
+                                            </button>
                                         )}
                                     </>
                                 )}
