@@ -1,17 +1,17 @@
 import { useState } from "react";
 import "./App.css";
-import { LoginPage } from "./components/LoginPage";
-import { LandingPage } from "./components/LandingPage";
+import { LoginPage } from "./components/LoginModule/LoginPage";
+import { LandingPage } from "./components/Pages/LandingPage";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ChangePassword } from "./components/ChangePassword";
-import { Courses } from "./components/Courses";
-import { Events } from "./components/Events";
-import { NotFound } from "./components/NotFound";
-import Video from "./components/Video";
-import { ForgotPassword } from "./components/ForgotPassword";
-import { Confirmation } from "./components/Confirmation";
+import { ChangePassword } from "./components/LoginModule/ChangePassword";
+import { Courses } from "./components/Pages/Courses";
+import { Events } from "./components/Pages/Events";
+import { NotFound } from "./components/Pages/NotFound";
+import Video from "./components/Pages/Video";
+import { ForgotPassword } from "./components/LoginModule/ForgotPassword";
+import { Confirmation } from "./components/LoginModule/Confirmation";
 
 function App() {
   const navigate = useNavigate();

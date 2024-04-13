@@ -17,7 +17,7 @@ router.get('/getUsers', verifyToken, userController.getUser)
 router.post('/createUser', verifyToken, userController.createUser);
 
 router.get('/courses', verifyToken, courseController.courses)
-router.post('/getVideo', courseController.fetchIndividualCourse)
+router.post('/getVideo', verifyToken, courseController.fetchIndividualCourse)
 router.post('/addCourse', verifyToken, courseController.addCourse)
 router.put('/EditCourse', verifyToken, courseController.editCourse)
 router.delete('/DeleteVideo/:id', verifyToken, courseController.deleteCourse)

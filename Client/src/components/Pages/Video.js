@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import NavBar from './NavBar';
+import { useLocation } from 'react-router-dom';
+import NavBar from '../NavBar/NavBar';
 import axios from 'axios';
 
 const Video = () => {
   const [ID, setID] = useState(null);
-  const [video, setVideo] = useState({})
-  const navigate = useNavigate();
   const token = sessionStorage.getItem('token')
 const location = useLocation();
 const [videoId, setvideoId] = useState(null)
@@ -18,27 +16,27 @@ const [videoId, setvideoId] = useState(null)
     const searchParams = new URLSearchParams(location.search);
     const encodedID = searchParams.get('ID');
     const decodedID = decodeURIComponent(encodedID);
-
-
     setID(decodedID);
     }, [location.search]);
 
     useEffect(() => {
         const fetchVideoData = async () => {
           try {
-            const response = await axios.post('http://localhost:3001/getVideo', { ID:ID });
+            const response = await axios.post('http://localhost:3001/getVideo', { ID:ID },
+          {
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
             console.log("Response",response.data);
-            setVideo(response.data)
             setvideoId(extractVideoId(response.data.VideoURL))
-            // Handle the response data
           } catch (error) {
-            console.error('Error fetching video data:', error);
+            console.log("Many requests");
           }
         };
-    
-        // Call the fetchVideoData function
         fetchVideoData();
-      }, [ID]);
+      }, [ID, token]);
 
       const extractVideoId = (url) => {
         const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);

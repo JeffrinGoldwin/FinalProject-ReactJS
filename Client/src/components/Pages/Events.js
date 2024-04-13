@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import {useLocation } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { AddEventModel } from './Model/AddEventModel';
-import { EventCards } from './Cards/EventCards';
-import NavBar from './NavBar';
+import { AddEventModel } from '../Model/AddEventModel';
+import { EventCards } from '../Cards/EventCards';
+import NavBar from '../NavBar/NavBar';
 
 export const Events = () => {
 

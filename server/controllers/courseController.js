@@ -84,7 +84,7 @@ const deleteCourse = async (req, res) => {
 
 const fetchIndividualCourse = async (req, res) => {
   try {
-    const { ID : ID } = req.body; // Extract ID from request body
+    const { ID : ID } = req.body;
     const videoData = await CourseModel.findOne({ _id: ID });
     if (!videoData) {
       return res.status(404).json({ message: 'video not found' });

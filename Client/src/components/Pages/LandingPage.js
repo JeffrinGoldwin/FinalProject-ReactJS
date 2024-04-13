@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { UserCreationForm } from "./UserCreationForm";
+import { UserCreationForm } from "../Froms/UserCreationForm";
 import { useNavigate } from "react-router-dom";
-import NavBar from "./NavBar";
-import { UserSkillForm } from "./UserSkillForm";
+import NavBar from "../NavBar/NavBar";
+import { UserSkillForm } from "../Froms/UserSkillForm";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
