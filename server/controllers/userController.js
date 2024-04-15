@@ -1,8 +1,6 @@
 const UserModel = require('../models/user');
 const { generateRandomString } = require('../utils/GenerateRandomPassword');
-const { sendEmail } = require('../utils/SendMail');
-const nodemailer = require("nodemailer");
-const transporter = require('../utils/Transporter')
+const sendEmail = require('../utils/SendMail');
 
 const createUser = async (req, res) => {
     try {
@@ -21,7 +19,7 @@ const createUser = async (req, res) => {
         });
         await newUser.save();
         const emailText = `Hello ${firstName},\n\nYour account has been created successfully.\n\nYour password is: ${randomPassword} \n\nWebsite Link : http://localhost:3000/login`;
-        await sendEmail(email, "Account Created", emailText, transporter);
+        await sendEmail(email, "Account Created", emailText);
         res.status(201).json({ message: "User created successfully", user: newUser });
       } catch (error) {
         console.log("Error creating user:", error);

@@ -1,7 +1,6 @@
 const UserModel = require("../models/user");
 const jwt = require('jsonwebtoken');
-const transporter = require('../utils/Transporter')
-const { sendEmail } = require('../utils/SendMail')
+const sendEmail = require('../utils/SendMail')
 
 let LoggedUser = null;
 
@@ -63,14 +62,16 @@ const changePassword = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try{
-    const { email } =  req.body;
+    // const { email } =  req.body;
+    const email  =  "jeffrin.2005031@srec.ac.in"
     const emailText = `Hello/n/nYou have requested for a change password request. Ckick the link below to change password/n/nLink : http://localhost:3000/ChangePassword?email=${email}`;
+    await sendEmail(email, "Forgot Password", emailText);
     res.status(200).json({message: "Email sent"})
-    await sendEmail(email, "Forgot Password", emailText, transporter);
     console.log("Sent Email")
   }
-  catch{
+  catch(error){
     res.status(500).json({ error: "Internal Server Error" });
+    console.log(error)
   }
 }
 

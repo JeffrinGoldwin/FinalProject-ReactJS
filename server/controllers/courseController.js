@@ -1,7 +1,6 @@
 const CourseModel = require("../models/course")
 const UserModel = require("../models/user")
-const {sendEmail} = require("../utils/SendMail")
-const transporter = require("../utils/Transporter")
+const sendEmail = require("../utils/SendMail")
 
 const courses = async (req, res) => {
     try {
@@ -38,7 +37,7 @@ const addCourse = async (req, res) => {
 
       try {
         // Send email to the current user
-        await sendEmail(email, "New Course", emailText, transporter);
+        await sendEmail(email, "New Course", emailText);
         console.log(`Email sent successfully to ${email}`);
       } catch (error) {
         console.error(`Error sending email to ${email}:`, error);

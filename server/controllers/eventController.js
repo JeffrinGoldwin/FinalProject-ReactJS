@@ -2,8 +2,7 @@ const EventModel = require('../models/events');
 const AcceptRejectModel = require('../models/AcceptRejectModel');
 const UserModel = require('../models/user');
 const SkillModel = require('../models/skills')
-const {sendEmail} = require('../utils/SendMail');
-const transporter = require('../utils/Transporter');
+const sendEmail = require('../utils/SendMail');
 
 const events = async (req, res) => {
   try {
@@ -64,7 +63,7 @@ const addEvent = async (req, res) => {
         
         try {
           // Send email to the current user
-          await sendEmail(email, "New Event", emailText, transporter);
+          await sendEmail(email, "New Event", emailText);
           console.log(`Email sent successfully to ${email}`);
         } catch (error) {
           console.error(`Error sending email to ${email}:`, error);
@@ -75,7 +74,7 @@ const addEvent = async (req, res) => {
     
     const email = savedEvent.TrainerEmail;
     const emailText = `Hello ${savedEvent.TrainerName} ,\n\nYou have been assigned as a trainer for a event\n\nWebsite Link : http://localhost:3000/Events`;
-    await sendEmail(email, "Event Trainer", emailText, transporter);
+    await sendEmail(email, "Event Trainer", emailText);
     
     // Send success response
     res.status(201).json(savedEvent);
@@ -109,7 +108,7 @@ const updateEvent = async (req, res) => {
         // Email content
         const emailText = `Dear ${employee.Email},\n\n${updatedEvent.EventName} Has been updated. Check it in the portal\n\nThank you.`;
         // Send the email
-        await sendEmail(employee.Email, "New Event", emailText, transporter);
+        await sendEmail(employee.Email, "New Event", emailText);
       } catch (error) {
         console.error("Error sending email to", employee.Email, ":", error);
       }
@@ -158,7 +157,7 @@ const sendIntrestedMail = async (req, res) => {
   try {
     const { name, subject, body, eventName } = req.body;
     const emailText = `Hello,\n\n${name} is intrested in ${eventName}.`;
-    await sendEmail("jeffcrjj@gmail.com", "Account Created", body, transporter);
+    await sendEmail("jeffcrjj@gmail.com", "Account Created", body);
     console.log("Email sent successfully");
     res.status(200).send("Email sent successfully");
   } catch (error) {
@@ -189,7 +188,7 @@ const confirmation = async (req, res) => {
   try {
     const { Email, EventName } = req.body;
     const emailText = `Hello ,\n\nYou have been registered for the event ${EventName}.\n\nWebsite Link : http://localhost:3000/login`;
-    await sendEmail(Email, "Account Created", emailText, transporter);
+    await sendEmail(Email, "Account Created", emailText);
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email:', error);

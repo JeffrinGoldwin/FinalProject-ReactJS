@@ -8,6 +8,15 @@ export const ChangePassword = () => {
   const [emailID, setEmailID] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const email = searchParams.get("email");
+
+    if (email) {
+      setEmailID(email);
+    }
+  }, [location.search]);
+
   const handleChangePassword = () => {
     axios
       .post("http://localhost:3001/changePassword", {
@@ -22,13 +31,6 @@ export const ChangePassword = () => {
         console.error("Error changing password:", error);
       });
   };
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const email = searchParams.get("email");
-
-    setEmailID(email);
-  }, [location.search]);
 
   return (
     <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
