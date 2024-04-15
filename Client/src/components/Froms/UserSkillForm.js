@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 export const UserSkillForm = ({ currentUser }) => {
@@ -15,7 +15,7 @@ export const UserSkillForm = ({ currentUser }) => {
     setExperience(event.target.value);
   };
 
-  const handleAddSkill = async () => {
+  const handleAddSkill = useCallback(async () => {
     if (skill.trim() !== "" && experience.trim() !== "") {
       try {
         const response = await axios.post(
@@ -44,7 +44,7 @@ export const UserSkillForm = ({ currentUser }) => {
         console.error("Error adding skill:", error);
       }
     }
-  };
+  }, [currentUser.FirstName, currentUser.Email, skill, experience, token, skills]);
 
   const handleDeleteSkill = async (id) => {
     try {
@@ -82,7 +82,7 @@ export const UserSkillForm = ({ currentUser }) => {
     };
 
     fetchSkills();
-  }, [handleAddSkill]);
+  }, [currentUser.Email, token]);
 
   return (
     <div className="border-b border-gray-900/10 dark:border-gray-300 pb-12 mx-20 my-10">

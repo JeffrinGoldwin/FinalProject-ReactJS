@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import CourseCards from "../Cards/CourseCards";
 import NavBar from "../NavBar/NavBar";
-import Button from "react-bootstrap/Button";
 import { AddCourseModel } from "../Model/AddCourseModel";
 import { useLocation } from "react-router-dom";
 
@@ -31,7 +30,7 @@ export const Courses = () => {
     };
 
     fetchCurrentUser();
-  }, [location.pathname]);
+  }, [location.pathname, token]);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -49,7 +48,7 @@ export const Courses = () => {
     };
 
     fetchCourses();
-  }, [videoData]);
+  }, [videoData, token]);
 
   const handleShow = () => setShow(true);
 

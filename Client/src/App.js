@@ -47,6 +47,18 @@ function App() {
             />
           }
         />
+        <Route
+          path="/"
+          element={
+            <LoginPage
+              loginEmail={loginEmail}
+              setloginEmail={setloginEmail}
+              loginPassword={loginPassword}
+              setloginPassword={setloginPassword}
+              handleLogin={handleLogin}
+            />
+          }
+        />
         <Route path="/LandingPage" element={<LandingPage />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/Courses" element={<Courses />} />

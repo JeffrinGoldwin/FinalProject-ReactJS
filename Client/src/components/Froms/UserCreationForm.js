@@ -6,7 +6,7 @@ export const UserCreationForm = () => {
   const [lastName, setLastName] = useState('Gold');
   const [email, setEmail] = useState('jeffrin.2005031@srec.ac.in');
   const [age, setAge] = useState('21');
-  const [role, setRole] = useState('User'); // Default role set to 'User'
+  const [role, setRole] = useState('User'); 
   const token = sessionStorage.getItem('token');
 
   const handleCreateUser = async (e) => {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { UserCreationForm } from "../Froms/UserCreationForm";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
@@ -9,7 +8,6 @@ import { UserSkillForm } from "../Froms/UserSkillForm";
 export const LandingPage = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState([]);
-  const location = useLocation();
   const token = sessionStorage.getItem('token');
 
   useEffect(() => {
@@ -32,7 +30,7 @@ export const LandingPage = () => {
     };
 
     fetchCurrentUser();
-  }, []);
+  }, [token, navigate]);
 
   return (
     <div className="dark:bg-gray-800 dark:text-white min-h-screen">

@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useEffect } from 'react' 
 import axios from 'axios'
 import {useLocation } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import { AddEventModel } from '../Model/AddEventModel';
 import { EventCards } from '../Cards/EventCards';
 import NavBar from '../NavBar/NavBar';
@@ -32,7 +31,7 @@ export const Events = () => {
         };
     
         fetchCurrentUser();
-      }, [location.pathname]);
+      }, [location.pathname, token]);
 
       useEffect(() => {
         const fetchEvents = async () => {
@@ -50,7 +49,7 @@ export const Events = () => {
         };
     
         fetchEvents();
-      }, [events]);
+      }, [events, token]);
 
 
     const handleShow = () => setShow(true);

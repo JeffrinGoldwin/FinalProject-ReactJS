@@ -6,8 +6,7 @@ export const ChangePassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [emailID, setEmailID] = useState("");
-  const [newPassword, setNewPassword] = useState("12345");
-  const token = sessionStorage.getItem("token");
+  const [newPassword, setNewPassword] = useState("");
 
   const handleChangePassword = () => {
     axios
